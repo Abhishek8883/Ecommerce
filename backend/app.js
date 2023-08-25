@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //logger
 app.use(logger('dev'));
-
+ 
 //cookie parser
 app.use(cookieParser());
 
@@ -32,7 +32,10 @@ app.use(errorMiddleware);
 
 //Routes import
 const productRouter = require("./routes/productRoute");
-app.use("/api/v1",productRouter);
+const userRouter = require("./routes/userRoute");
 
+
+app.use("/api/v1",productRouter);
+app.use("/api/v1",userRouter);
 
 module.exports = app; 

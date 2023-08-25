@@ -2,19 +2,21 @@ const Product = require("../models/productModel");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middlewares/catchAsyncError");
 const ApiFeatures = require("../utils/apiFeatures");
+const { PAGINATION_LIMIT } = require("../services/constants")
 
 module.exports = {
 
     getAllProducts: catchAsyncErrors(
         async (req, res, next) => {
 
-            const resultPerPage = 2;
+            const resultPerPage = PAGINATION_LIMIT;
+            const productCount =await Product.countDocuments();
             const apiFeature = new ApiFeatures(Product.find(), req.query)
                 .search()
                 .filter()
                 .pagination();
             const products = await apiFeature.query;
-            res.status(200).json({ success: true, products })
+            res.status(200).json({ success: true, products ,productCount})
         }
     ),
 

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const productModel = mongoose.Schema({
+const productModel =new  mongoose.Schema({
 
     productName: {
         type: String,
@@ -21,18 +21,18 @@ const productModel = mongoose.Schema({
         default: 0,
         maxValue: [5, "Rating can not be greater than 5."]
     },
-    // images: [
-    //     {
-    //         public_id: {
-    //             type: String,
-    //             required: true
-    //         },
-    //         url: {
-    //             type: String,
-    //             required: true
-    //         }
-    //     }
-    // ],
+    images: [
+        {
+            public_id: {
+                type: String,
+                required: true
+            },
+            url: {
+                type: String,
+                required: true
+            }
+        }
+    ],
     category:{
         type:String,
         required:[true,"Please enter product category"]
@@ -46,22 +46,22 @@ const productModel = mongoose.Schema({
         type:Number,
         default:0
     },
-    // reviews:[
-    //     {
-    //         name:{
-    //             type:String,
-    //             required:true
-    //         },
-    //         rating:{
-    //             type:Number,
-    //             required:true
-    //         },
-    //         comment:{
-    //             type:String 
+    reviews:[
+        {
+            name:{
+                type:String,
+                required:true
+            },
+            rating:{
+                type:Number,
+                required:true
+            },
+            comment:{
+                type:String 
 
-    //         }
-    //     }
-    // ],
+            }
+        }
+    ],
     createdAt:{
         type:Date,
         default:Date.now
