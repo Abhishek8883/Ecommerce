@@ -1,7 +1,7 @@
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middlewares/catchAsyncError");
 const User = require("../models/userModel");
-const saveToken  = require("../utils/jwtToken")
+const saveToken  = require("../utils/jwtToken");
 
 module.exports = {
 
@@ -42,5 +42,18 @@ module.exports = {
         }
 
         saveToken(res, user, 201)
+    }),
+
+
+    userLogout : catchAsyncErrors(async (req,res,next) => {
+        res.cookie("token",null,{
+            expires:new Date(Date.now()),
+            httpOnly:true
+        })
+
+        res.status(200).json({
+            success:true,
+            messege:"Logged Out"
+        })
     })
 }

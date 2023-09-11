@@ -2,7 +2,8 @@ const Product = require("../models/productModel");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middlewares/catchAsyncError");
 const ApiFeatures = require("../utils/apiFeatures");
-const { PAGINATION_LIMIT } = require("../services/constants")
+const { PAGINATION_LIMIT } = require("../services/constants");
+
 
 module.exports = {
 
@@ -23,9 +24,11 @@ module.exports = {
 
     createProduct: catchAsyncErrors(
         async (req, res, next) => {
+            req.body.createdBy = req.user.id;
+
             const product = await Product.create(req.body);
 
-            res.status(201).json({ messege: "Product created successfully." })
+            res.status(201).json({ messege: "Product created successfully." ,product})
         }
     ),
 
