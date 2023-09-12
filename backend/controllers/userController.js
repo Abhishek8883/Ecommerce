@@ -2,6 +2,7 @@ const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middlewares/catchAsyncError");
 const User = require("../models/userModel");
 const saveToken  = require("../utils/jwtToken");
+const sendEmail = require("../utils/sendEmail");
 
 module.exports = {
 
@@ -55,5 +56,43 @@ module.exports = {
             success:true,
             messege:"Logged Out"
         })
-    })
+    }),
+
+
+    forgotPassword : catchAsyncErrors(async (req,res,next) => {
+        const user = await User.findOne({email:req.body.email});
+
+        if(!user){
+            return next(new ErrorHandler("User not found",404));
+        }
+
+        const resetToken = user.getPassswordResetToken();
+
+        await user.save({validateBeforeSave:false});
+
+        const resetPasswordUrl = `${req.protocol}://${req.get("host")}/api/v1/password/reset/${resetToken}`;
+
+        const message = `Click on the link to reset your password \n\n ${resetPasswordUrl} \n\n Ignore if not requested by you. `
+
+        try {
+            await sendEmail({
+                email:user.email,
+                subject:`Ecommece Password Recovery`,
+                message
+        });
+
+        res.status(200).json({
+            success:true,
+            messege:`Email sent to ${user.email} successfully.`
+        })
+            
+        } catch (error) {
+            user.resetPasswordToken = undefined;
+            user.resetPasswordExpire = undefined;
+
+            await user.save({validateBeforeSave:false});
+
+            return next(new ErrorHandler(error,500))
+        }
+    }),
 }
