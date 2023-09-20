@@ -32,8 +32,6 @@ app.use(cors())
 //i18n for locals
 app.use(i18n)
 
-//middleware for errors
-app.use(errorMiddleware);
 
 //Routes import
 const productRouter = require("./routes/productRoute");
@@ -42,5 +40,9 @@ const userRouter = require("./routes/userRoute");
 
 app.use("/api/v1",productRouter);
 app.use("/api/v1",userRouter);
+
+
+//middleware for errors
+app.use(errorMiddleware);
 
 module.exports = app; 

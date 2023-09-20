@@ -3,6 +3,7 @@ const catchAsyncErrors = require("../middlewares/catchAsyncError");
 const User = require("../models/userModel");
 const saveToken  = require("../utils/jwtToken");
 const sendEmail = require("../utils/sendEmail");
+const {successResponse,successResponseData} = require("../services/response")
 
 module.exports = {
 
@@ -18,8 +19,8 @@ module.exports = {
         })
 
         saveToken(res, user, 201)
-
     }),
+
 
     userLogin: catchAsyncErrors(async (req, res, next) => {
         const { email, password } = req.body;
@@ -49,13 +50,11 @@ module.exports = {
     userLogout : catchAsyncErrors(async (req,res,next) => {
         res.cookie("token",null,{
             expires:new Date(Date.now()),
+
             httpOnly:true
         })
 
-        res.status(200).json({
-            success:true,
-            messege:"Logged Out"
-        })
+        return successResponse(res,"Logged out");
     }),
 
 
@@ -81,10 +80,7 @@ module.exports = {
                 message
         });
 
-        res.status(200).json({
-            success:true,
-            messege:`Email sent to ${user.email} successfully.`
-        })
+        return successResponse(res,`Email sent to ${user.email} successfully.`)
             
         } catch (error) {
             user.resetPasswordToken = undefined;
@@ -95,4 +91,13 @@ module.exports = {
             return next(new ErrorHandler(error,500))
         }
     }),
+
+
+    getLoggedUserdetails: catchAsyncErrors(async (req,res,next) => {
+        const user = await User.findById(req.user.id);
+
+        return successResponseData(res,user)
+    }),
+
+
 }

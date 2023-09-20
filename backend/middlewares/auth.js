@@ -12,7 +12,7 @@ module.exports = {
             return next(new ErrorHandler("PLease login to access this resource", 401))
         }
 
-        const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+        const decodedData = jwt.verify(token,process.env.JWT_SECRET);
 
         req.user = await User.findById(decodedData.id);
 

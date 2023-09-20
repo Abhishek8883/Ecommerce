@@ -1,3 +1,6 @@
-module.exports = {
-    PAGINATION_LIMIT : 10
+let Constants = {
+    PAGINATION_LIMIT : 2,
+    ADMIN:"admin"
 }
+
+module.exports = Constants;

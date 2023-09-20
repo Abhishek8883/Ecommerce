@@ -2,7 +2,9 @@ const Product = require("../models/productModel");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middlewares/catchAsyncError");
 const ApiFeatures = require("../utils/apiFeatures");
-const { PAGINATION_LIMIT } = require("../services/constants");
+let Constants = require("../services/constants");
+const { successResponse,successResponseData } = require("../services/response");
+
 
 
 module.exports = {
@@ -10,14 +12,16 @@ module.exports = {
     getAllProducts: catchAsyncErrors(
         async (req, res, next) => {
 
-            const resultPerPage = PAGINATION_LIMIT;
+            const resultPerPage = Constants.PAGINATION_LIMIT;
             const productCount =await Product.countDocuments();
             const apiFeature = new ApiFeatures(Product.find(), req.query)
                 .search()
                 .filter()
-                .pagination();
+                .pagination(resultPerPage);
             const products = await apiFeature.query;
-            res.status(200).json({ success: true, products ,productCount})
+
+            return successResponseData(res,{products,productCount})
+
         }
     ),
 
@@ -28,7 +32,7 @@ module.exports = {
 
             const product = await Product.create(req.body);
 
-            res.status(201).json({ messege: "Product created successfully." ,product})
+            return successResponseData(res,product,"Product created successfully.");
         }
     ),
 
@@ -47,10 +51,7 @@ module.exports = {
                 useFindAndModify: false
             });
 
-            res.status(200).json({
-                success: true,
-                product
-            })
+            return successResponseData(res,product);
         }
     ),
 
@@ -64,10 +65,7 @@ module.exports = {
                 return next(new ErrorHandler("Product not found", 404))
             }
 
-            res.status(200).json({
-                success: true,
-                messege: "Product deleted successfully."
-            })
+                return successResponse(res,"Product deleted successfully.")
         }
     ),
 
@@ -80,10 +78,7 @@ module.exports = {
                 return next(new ErrorHandler("Product not found", 404))
             }
 
-            res.status(200).json({
-                success: true,
-                product
-            })
+            return successResponseData(res,product)
         }
     ),
 
