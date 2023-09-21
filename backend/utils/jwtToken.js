@@ -12,6 +12,8 @@ const saveToken = (res,user,statusCode)=>{
         httpOnly:true
     }
 
+    user.password = "";
+
     res.status(statusCode).cookie('token',token,options).json({
         success:true,
         user,
