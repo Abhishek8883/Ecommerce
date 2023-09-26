@@ -12,12 +12,14 @@ const {
 
 router.get("/products", isAuthenticated, getAllProducts);
 
-router.post("/product/new", isAuthenticated,authoriseRoles("admin"),createProduct);
+router.post("/admn/product/new", isAuthenticated,authoriseRoles("admin"),createProduct);
 
-router.route("/product/:id")
-    .get(getProductDetails)
+router.route("/admin/product/:id")
     .put(isAuthenticated, updateProduct)
     .delete(isAuthenticated, deleteProduct);
+    
+
+router.get("/product/:id",getProductDetails)
 
 
 module.exports = router;

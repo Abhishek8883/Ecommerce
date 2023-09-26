@@ -1,7 +1,7 @@
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middlewares/catchAsyncError");
 const User = require("../models/userModel");
-const saveToken  = require("../utils/jwtToken");
+const saveToken  = require("../utils/jwtToken"); 
 const sendEmail = require("../utils/sendEmail");
 const {successResponse,successResponseData} = require("../services/response");
 const crypto = require("crypto");
@@ -44,7 +44,7 @@ module.exports = {
             return next(new ErrorHandler("Invalid email or password.", 401))
         }
 
-        saveToken(res, user, 201)
+        saveToken(res, user)
     }),
 
 
@@ -130,8 +130,90 @@ module.exports = {
         user.password = req.body.password;
         user.save();
 
-        saveToken(res,user,200);
+        saveToken(res,user);
     }),
 
- 
+
+    updateUserPassword : catchAsyncErrors(async (req,res,next) => {
+        const user  = await User.findById(req.user.id).select("+password");
+
+        const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
+
+        if(!isPasswordMatched){
+            return next(new ErrorHandler("Old password is incorrect",400));
+        }
+
+        if(req.body.newPassword !== req.body.confirmPassword){
+            return next(new ErrorHandler("Password does not match",400));
+        }
+
+        user.password = req.body.newPassword;
+        await user.save();
+
+        saveToken(res,user);
+    }),
+
+
+    updateUserProfile : catchAsyncErrors(async (req,res,next) => {
+
+        const {name,email} = req.body;
+
+        const user = await User.findByIdAndUpdate(req.user.id,{name,email},{
+            new:true,
+            runValidators:true,
+            useFindAndModify:false
+        })
+
+        return successResponse(res,"User updated successfully.",202)
+    }),
+
+    
+    //admin 
+    getAllUsers : catchAsyncErrors(async (req,res,next) => {
+        const users = await User.find();
+        const totalUsers = await User.countDocuments();
+
+        return successResponseData(res,{users,totalUsers});
+    }),
+
+
+    //admin
+    getUserDetails :catchAsyncErrors(async (req,res,next) => {
+        const user =  await User.findById(req.params.id);
+
+        if(!user){
+            return next(new ErrorHandler("User not exist / Incorrect ID"))
+        }
+
+        return successResponseData(res,user);
+    }),
+
+
+    //admin
+    updateUserRole : catchAsyncErrors(async(req,res,next) => {
+        const {name,email,role} = req.body;
+
+        const user = await User.findByIdAndUpdate(req.user.id,{name,email,role},{
+            new:true,
+            runValidators:true,
+            useFindAndModify:false
+        })
+
+        return successResponse(res,"Role updated successfully.",202)
+    }),
+
+
+    //admin
+    deleteUser : catchAsyncErrors(async (req,res,next) => {
+        const user = await User.findByIdAndDelete(req.params.id);
+
+        if(!user){
+            return next(new ErrorHandler("User does not exist"));
+        }
+
+        return successResponse("User deleted successfully.")
+    }),
+
+
+
 }
