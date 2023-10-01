@@ -6,7 +6,7 @@ const{
     userLogout,
     forgotPassword,
     getLoggedUserdetails,
-    resetPassword,
+    resetForgotPassword,
     updateUserPassword,
     updateUserProfile,
     getAllUsers,
@@ -31,7 +31,7 @@ router.get("/getLoggedUser",isAuthenticated,getLoggedUserdetails);
 
 router.post("/password/forgot",forgotPassword);
 
-router.put("/password/reset/:token",resetPassword);
+router.put("/password/reset/:token",resetForgotPassword);
 
 
 //user routes

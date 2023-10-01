@@ -1,5 +1,10 @@
 {
 	"Logged out": "Logged out",
 	"Product not found": "Product not found",
-	"Email sent to abhishekpandey8883@gmail.com successfully.": "Email sent to abhishekpandey8883@gmail.com successfully."
+	"Email sent to abhishekpandey8883@gmail.com successfully.": "Email sent to abhishekpandey8883@gmail.com successfully.",
+	"Product created successfully.": "Product created successfully.",
+	"Review submitted successfully.": "Review submitted successfully.",
+	"User updated successfully.": "User updated successfully.",
+	"Role updated successfully.": "Role updated successfully.",
+	"User deleted successfully.": "User deleted successfully."
 }

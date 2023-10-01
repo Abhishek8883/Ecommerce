@@ -94,14 +94,7 @@ module.exports = {
     }),
 
 
-    getLoggedUserdetails: catchAsyncErrors(async (req,res,next) => {
-        const user = await User.findById(req.user.id);
-
-        return successResponseData(res,user)
-    }),
-
-
-    resetPassword: catchAsyncErrors(async (req,res,next) => {
+    resetForgotPassword: catchAsyncErrors(async (req,res,next) => {
         //creating password hash
         const resetPasswordToken = crypto
         .createHash("sha256")
@@ -131,6 +124,13 @@ module.exports = {
         user.save();
 
         saveToken(res,user);
+    }),
+
+
+    getLoggedUserdetails: catchAsyncErrors(async (req,res,next) => {
+        const user = await User.findById(req.user.id);
+
+        return successResponseData(res,user)
     }),
 
 
@@ -164,7 +164,8 @@ module.exports = {
             useFindAndModify:false
         })
 
-        return successResponse(res,"User updated successfully.",202)
+        saveToken(res,user);
+        // return successResponse(res,"User updated successfully.",202)
     }),
 
     
@@ -191,13 +192,13 @@ module.exports = {
 
     //admin
     updateUserRole : catchAsyncErrors(async(req,res,next) => {
-        const {name,email,role} = req.body;
+        const {role} = req.body;
 
-        const user = await User.findByIdAndUpdate(req.user.id,{name,email,role},{
+        const user = await User.findByIdAndUpdate(req.params.id,{role:role},{
             new:true,
             runValidators:true,
             useFindAndModify:false
-        })
+        })  
 
         return successResponse(res,"Role updated successfully.",202)
     }),
@@ -205,15 +206,13 @@ module.exports = {
 
     //admin
     deleteUser : catchAsyncErrors(async (req,res,next) => {
+
         const user = await User.findByIdAndDelete(req.params.id);
 
         if(!user){
             return next(new ErrorHandler("User does not exist"));
         }
 
-        return successResponse("User deleted successfully.")
+        return successResponse(res,"User deleted successfully.")
     }),
-
-
-
 }
