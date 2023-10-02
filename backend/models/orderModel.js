@@ -38,7 +38,7 @@ const orderSchema = new mongoose.Schema({
                 type:Number,
                 required:true
             },
-            qunatity:{
+            quantity:{
                 type:Number,
                 required:true
             },
@@ -55,7 +55,7 @@ const orderSchema = new mongoose.Schema({
     ],
 
     orderedBy:{
-        type:mogoose.Schema.ObjectId,
+        type:mongoose.Schema.ObjectId,
         ref:"User",
         required:true
     },

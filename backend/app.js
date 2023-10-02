@@ -30,10 +30,12 @@ app.use(i18n)
 //Routes import
 const productRouter = require("./routes/productRoute");
 const userRouter = require("./routes/userRoute");
+const orderRouter = require("./routes/orderRoute");
 
 
 app.use("/api/v1",productRouter);
 app.use("/api/v1",userRouter);
+app.use("/api/v1",orderRouter); 
 
 
 //middleware for errors

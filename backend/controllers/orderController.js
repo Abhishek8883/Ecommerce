@@ -32,5 +32,28 @@ module.exports = {
 
     }),
 
-    
+
+    getSingleOrderDetails : catchAsyncErrors(async(req,res,next) => {
+
+        const order = await Order.findById(req.params.id).populate("user");
+
+        if(!order){
+            return next(new ErrorHandler("Invalid order Id",404))
+        }
+
+        return successResponseData(res,order);
+    }),
+
+
+    getLoggedUserOrders: catchAsyncErrors(async (req,res,next) => {
+
+        const orders = await Order.find({user:req.user._id})
+
+        if(!orders){
+            return next(new ErrorHandler("Invalid user Id",404))
+        }
+
+        return successResponseData(res,orders);
+        
+    }),
 }
