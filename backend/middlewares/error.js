@@ -26,7 +26,7 @@ module.exports = (err,req,res,next) => {
 
     //Expired JWT token
     if(err.name === "TokenExpiredError"){
-        const message = `Token expired , T ry again`;
+        const message = `Token expired , Try again`;
         err = new errorHandler(message,400);    
     }
 
