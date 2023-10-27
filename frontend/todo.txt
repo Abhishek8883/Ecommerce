@@ -1,0 +1,3 @@
+-- correct header responsivness
+
+-- make footer properly
