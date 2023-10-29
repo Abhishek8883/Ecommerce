@@ -15,9 +15,18 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import logo from "../../../images/logo.png";
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import { CssBaseline } from '@mui/material';
 
 
-import logo from "../../images/logo.png"
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -34,6 +43,7 @@ const Search = styled('div')(({ theme }) => ({
     width: 'auto',
   },
 }));
+
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
@@ -59,9 +69,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function Header() {
+
+export default function Header(props) {
+
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [state, setState] = React.useState({
+    left: false,
+  });
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -106,6 +122,8 @@ export default function Header() {
   );
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
+
+
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
@@ -157,29 +175,92 @@ export default function Header() {
     </Menu>
   );
 
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+    setState({ ...state, [anchor]: open });
+  };
+
+  const list = (anchor) => (
+    <Box
+      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
+      role="presentation"
+      onClick={toggleDrawer(anchor, false)}
+      onKeyDown={toggleDrawer(anchor, false)}
+    >
+      <List>
+        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          <ListItem key={text} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          <ListItem key={text} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
+
+
+
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+    <Box display={'flex'}>
+      <CssBaseline />
+      <AppBar position="fixed">
         <Toolbar>
-          
           <IconButton
             size="large"
             edge="start"
             color="inherit"
             aria-label="open drawer"
-           
+            sx={{ mr: { xs: 1.5 } }}
+            onClick={toggleDrawer('left', true)}
           >
             <MenuIcon />
           </IconButton>
+          {['left'].map((anchor) => (
+            <React.Fragment key={anchor}>
+
+              <SwipeableDrawer
+                anchor={anchor}
+                open={state[anchor]}
+                onClose={toggleDrawer(anchor, false)}
+                onOpen={toggleDrawer(anchor, true)}
+              >
+                {list(anchor)}
+              </SwipeableDrawer>
+            </React.Fragment>
+          ))}
+
 
           <Box
             component="img"
-            sx={{ height: 54}}
+            sx={{ height: 54, display: { xs: 'none', sm: 'initial' } }}
             alt="Logo"
             src={logo}
           />
 
-          <Typography variant="h6" color="inherit" component="div" sx={{m:-2}}>
+          <Typography variant="h6" color="inherit" component="div" sx={{ m: -2, display: { xs: 'none', sm: 'initial' } }} >
             Eshop
           </Typography>
 
@@ -235,7 +316,7 @@ export default function Header() {
               <MoreIcon />
             </IconButton>
           </Box>
-          
+
         </Toolbar>
       </AppBar>
       {renderMobileMenu}

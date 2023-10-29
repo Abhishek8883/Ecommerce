@@ -1,9 +1,5 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
@@ -15,20 +11,17 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import Productcard from "./Productcard"
 
-
-
-const cards = [1, 2, 3, 4];
-
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function Album() {
+
+
+const Home = () => {
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
 
       <main>
-        {/* Hero unit */}
+        
         <Box
           sx={{
             bgcolor: 'background.paper',
@@ -44,12 +37,10 @@ export default function Album() {
               color="text.primary"
               gutterBottom
             >
-              Album layout
+              Welcome to Eshop
             </Typography>
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
-              Something short and leading about the collection below—its contents,
-              the creator, etc. Make it short and sweet, but not too short so folks
-              don&apos;t simply skip over it entirely.
+             Find all the things you need , Here only .
             </Typography>
             <Stack
               sx={{ pt: 4 }}
@@ -57,8 +48,8 @@ export default function Album() {
               spacing={2}
               justifyContent="center"
             >
-              <Button variant="contained">Main call to action</Button>
-              <Button variant="outlined">Secondary action</Button>
+              <Button variant="contained">Explore</Button>
+              <Button variant="outlined">Become a seller</Button>
             </Stack>
           </Container>
         </Box>
@@ -80,3 +71,6 @@ export default function Album() {
     </ThemeProvider>
   );
 }
+
+
+export default Home;

@@ -3,7 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Webfont from "webfontloader";
 import * as React from 'react';
 
-import Header from "./components/layout/Header";
+import Header from "./components/layout/header/Header";
 import Footer from "./components/layout/footer";
 import Home from "./components/home/Home"
 
