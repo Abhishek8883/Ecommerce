@@ -1,4 +1,3 @@
-import './App.css';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Webfont from "webfontloader";
 import * as React from 'react';
