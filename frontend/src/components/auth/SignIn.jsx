@@ -12,7 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
- 
+
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../../features/auth/authSlice';
@@ -24,7 +24,7 @@ function Copyright(props) {
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        Eshop
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -42,17 +42,17 @@ export default function SignIn() {
   const [login] = useLoginMutation();
 
 
-  const handleSubmit =async  (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    try{
-      const data = new FormData(event.currentTarget);
-    const email = data.get('email');
-    const password = data.get('password');
-    const userData = await login({email,password}).unwrap()
-    console.log("userdata -----  : " + userData );
-    // dispatch(setCredentials({...userData}))
-    // navigate('/')
-    }catch(err){
+    try {
+      const formData = new FormData(event.currentTarget);
+      const email = formData.get('email');
+      const password = formData.get('password');
+      let userData = await login({ email, password }).unwrap()
+      userData = JSON.parse(JSON.stringify(userData))    
+      dispatch(setCredentials({...userData.data}))  
+      navigate('/')
+    } catch (err) {
       console.log(err);
     }
   };

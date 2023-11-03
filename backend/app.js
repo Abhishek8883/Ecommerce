@@ -21,7 +21,7 @@ app.use(cookieParser());
 
 
 //cors for cross-origin scripts
-app.use(cors())
+app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 
 //i18n for locals
 app.use(i18n)

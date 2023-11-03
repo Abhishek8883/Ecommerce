@@ -21,13 +21,13 @@ module.exports = (err,req,res,next) => {
     //Invalid JWT token
     if(err.name === "JsonWebTokenError"){
         const message = `Invalid token , Try again`;
-        err = new errorHandler(message,400);    
+        err = new errorHandler(message,401);    
     }
 
     //Expired JWT token
     if(err.name === "TokenExpiredError"){
         const message = `Token expired , Try again`;
-        err = new errorHandler(message,400);    
+        err = new errorHandler(message,401);    
     }
 
     res.status(err.statusCode).json({

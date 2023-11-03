@@ -1,5 +1,3 @@
-
-
 const saveToken = (res,user,statusCode=200)=>{
 
     const token  = user.setToken();
@@ -12,10 +10,10 @@ const saveToken = (res,user,statusCode=200)=>{
         httpOnly:true
     }
 
-    res.status(statusCode).cookie('token',token,options).json({
+    res.status(statusCode).cookie('authorization',token,options).send({
         success:true,
-        user,
-        token
+        data:{user,
+        accessToken:token}
     })
 }
 

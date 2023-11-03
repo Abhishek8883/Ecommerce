@@ -9,12 +9,12 @@ export const productSlice = createSlice({
     name:"product",
     initialState,
     reducers:{
-        ALL_PRODUCT_SUCCESS:(state,action) => {
-            state.products = action.payload.products;
-        },
-
         ALL_PRODUCT_REQUEST:(state,action) => {
             state.products = [];
+        },
+
+        ALL_PRODUCT_SUCCESS:(state,action) => {
+            state.products = action.payload.products;
         },
 
         ALL_PRODUCT_FAIL:(state,action) => {
@@ -24,7 +24,6 @@ export const productSlice = createSlice({
         CLEAR_ERRORS: (state,action) => {
             state.error = null;
         },
-
 
     }
 });

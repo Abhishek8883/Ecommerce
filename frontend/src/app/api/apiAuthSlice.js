@@ -7,6 +7,7 @@ const baseQuery = fetchBaseQuery({
 })
 
 export const apiAuthSlice = createApi({
+    reducerPath:"apiAuth",
     baseQuery:baseQuery,
     endpoints:(builder) => ({
         login : builder.mutation({

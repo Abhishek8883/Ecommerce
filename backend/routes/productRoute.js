@@ -13,7 +13,7 @@ const {
     createProductReview
 } = require("../controllers/productController")
 
-router.get("/products", isAuthenticated, getAllProducts);
+router.get("/products", getAllProducts);
 
 router.post("/admin/product/new", isAuthenticated,authoriseRoles(ADMIN),createProduct);
 

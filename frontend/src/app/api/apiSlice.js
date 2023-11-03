@@ -1,16 +1,15 @@
 import {createApi,fetchBaseQuery} from "@reduxjs/toolkit/query/react";
-import { setCredentials,logOut } from "../../features/auth/authSlice";
+import {logOut } from "../../features/auth/authSlice";
 
 
 const baseQueryWithAuth = fetchBaseQuery({
     baseUrl:"http://localhost:4000/api/v1/",
     credentials:'include',
     prepareHeaders:(headers,{getState}) => {
-        console.log(getState());
-        // const token = getState().auth.token
-        // if(token){
-        //     headers.set("authorization",`Bearer ${token}`)
-        // }
+        const token = getState().auth.token
+        if(token){
+            headers.set("authorization",token)
+        }
         return headers
     }
 })
@@ -19,29 +18,19 @@ const baseQueryWithAuth = fetchBaseQuery({
 const baseQueryWithReauth = async (args,api,extraoptions) => {
     const result = await baseQueryWithAuth(args,api,extraoptions) 
 
-    console.log(result);
-    if(result.success){
-
-        // const user = api.getState().auth.user;
-        console.log("state ------ " +   api.getState());
-
-        // api.dispatch(setCredentials(...result.data,user));
-    }
-    else{
+    if(result?.error?.originalStatus === 401){
         api.dispatch(logOut())
     }
     return result;
 }
 
 export const apiSlice = createApi({
+    reducerPath:"api",
     baseQuery:baseQueryWithReauth,
     endpoints:builder => ({})
 })
 
-// export const apiAuthSlice = createApi({
-//     baseQuery:"http://localhost:4000/api/v1/",
-//     endpoints:(builder) => ({})
-// })
+
 
 // export const api = createApi({
 //     reducerPath:"api",

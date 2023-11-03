@@ -1,6 +1,7 @@
 let Constants = {
-    PAGINATION_LIMIT : 2,
-    ADMIN:"admin"
+    PAGINATION_LIMIT : 10,
+    ADMIN:"admin",
+    USER:"user"
 }
 
 module.exports = Constants;

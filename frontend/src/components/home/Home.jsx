@@ -1,22 +1,37 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
-import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useDispatch } from 'react-redux';
 
-
-import Productcard from "../product/Productcard"
+import {useGetProductsQuery} from "../../features/product/productApiSlice"
+import Product from "../product/product";
+import {ALL_PRODUCT_FAIL,ALL_PRODUCT_REQUEST,ALL_PRODUCT_SUCCESS} from "../../features/product/productSlice"
 
 const defaultTheme = createTheme();
 
 
 
+
 const Home = () => {
+
+  const dispatch = useDispatch();
   
+  const {isLoading,data,error} = useGetProductsQuery();
+  
+  // const fetchData = () => {
+  //   dispatch(ALL_PRODUCT_REQUEST())
+  //   if(data){
+  //     dispatch(ALL_PRODUCT_SUCCESS(data))
+  //   }
+  //   else{
+  //     dispatch(ALL_PRODUCT_FAIL(error))
+  //   }
+  // }
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -31,7 +46,7 @@ const Home = () => {
             pb: 6,
           }}
         >
-          <Container maxWidth="sm">
+          <Container maxWidth="sm" mb={20}>
             <Typography
               component="h1"
               variant="h2"
@@ -54,19 +69,12 @@ const Home = () => {
               <Button variant="outlined">Become a seller</Button>
             </Stack>
           </Container>
+
+          {/* product component */}
+          <Product />
+
         </Box>
-
-
-        <Container maxWidth="xl">
-          
-          <Grid  container justifyContent={'center'} >
-            <Productcard  />
-            <Productcard  />
-            <Productcard  />
-            <Productcard  />
-
-          </Grid>
-        </Container>
+      
       </main>
 
     </ThemeProvider>
