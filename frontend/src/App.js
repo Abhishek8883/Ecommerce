@@ -1,10 +1,9 @@
-import { BrowserRouter as Router } from 'react-router-dom';
-import Webfont from "webfontloader";
 import * as React from 'react';
+import Webfont from "webfontloader";
+import {Outlet } from 'react-router-dom';
 
 import Header from "./components/layout/header/Header";
-import Footer from "./components/layout/footer";
-import Home from "./components/home/Home"
+import Footer from "./components/layout/footer/footer";
 
 
 function App() {
@@ -18,11 +17,11 @@ function App() {
   }, [])
 
   return (
-    <Router>
+    <>
       <Header />
-      <Home />
+      <Outlet />
       <Footer />
-    </Router>
+    </>
   );
 }
 

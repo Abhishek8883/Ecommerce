@@ -6,28 +6,17 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useDispatch,useSelector } from 'react-redux';
 
 
-import Productcard from "./Productcard"
-import {useGetPostsQuery} from "../../api/api"
+import Productcard from "../product/Productcard"
 
 const defaultTheme = createTheme();
 
 
 
 const Home = () => {
-
-  const dispatch = useDispatch();
-  const {isLoading,data} = useGetPostsQuery("");
-  console.log(isLoading);
-
-
-  React.useEffect(() => {
-   
-  },[dispatch])
+  
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -38,7 +27,7 @@ const Home = () => {
         <Box
           sx={{
             bgcolor: 'background.paper',
-            pt: 8,
+            pt: 15,
             pb: 6,
           }}
         >
@@ -71,11 +60,10 @@ const Home = () => {
         <Container maxWidth="xl">
           
           <Grid  container justifyContent={'center'} >
-            <Productcard /> 
-            <Productcard /> 
-            <Productcard /> 
-            <Productcard /> 
-            <Productcard /> 
+            <Productcard  />
+            <Productcard  />
+            <Productcard  />
+            <Productcard  />
 
           </Grid>
         </Container>

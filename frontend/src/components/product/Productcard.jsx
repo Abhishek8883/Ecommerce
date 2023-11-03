@@ -3,7 +3,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions } from '@mui/material';
+import { CardActionArea} from '@mui/material';
 import Grid from '@mui/material/Grid';
 
 
@@ -19,7 +19,7 @@ export default function MultiActionAreaCard() {
               // 16:9
               pt: '56.25%',
             }}
-            image="https://source.unsplash.com/random?cars  "
+            image="https://source.unsplash.com/random"
           />
           <CardContent sx={{ flexGrow: 1 }}>
             <Typography gutterBottom variant="h6" >

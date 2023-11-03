@@ -224,7 +224,7 @@ export default function Header(props) {
 
 
   return (
-    <Box display={'flex'}>
+    <Box>
       <CssBaseline />
       <AppBar position="fixed">
         <Toolbar>
