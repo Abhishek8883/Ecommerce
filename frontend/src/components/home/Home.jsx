@@ -10,33 +10,31 @@ import { useDispatch } from 'react-redux';
 
 import {useGetProductsQuery} from "../../features/product/productApiSlice"
 import Product from "../product/product";
-import {ALL_PRODUCT_FAIL,ALL_PRODUCT_REQUEST,ALL_PRODUCT_SUCCESS} from "../../features/product/productSlice"
+import {setProducts} from "../../features/product/productSlice" 
+
 
 const defaultTheme = createTheme();
 
 
-
-
 const Home = () => {
+  const {isLoading,data,error} = useGetProductsQuery();
 
   const dispatch = useDispatch();
   
-  const {isLoading,data,error} = useGetProductsQuery();
-  
-  // const fetchData = () => {
-  //   dispatch(ALL_PRODUCT_REQUEST())
-  //   if(data){
-  //     dispatch(ALL_PRODUCT_SUCCESS(data))
-  //   }
-  //   else{
-  //     dispatch(ALL_PRODUCT_FAIL(error))
-  //   }
-  // }
+  React.useEffect(() => {
+    if(data){
+      dispatch(setProducts(data.data.products))
+    }
+  },[data])
+
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    isLoading ? <h1>Loading...</h1> : 
+    ( error?<span>error</span>:
+    ( 
+      <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-
+      
       <main>
         
         <Box
@@ -71,13 +69,15 @@ const Home = () => {
           </Container>
 
           {/* product component */}
-          <Product />
+         <Product />
 
         </Box>
       
       </main>
 
     </ThemeProvider>
+    )  
+    )
   );
 }
 

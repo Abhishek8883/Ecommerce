@@ -7,7 +7,8 @@ import { CardActionArea} from '@mui/material';
 import Grid from '@mui/material/Grid';
 
 
-export default function MultiActionAreaCard() {
+export default function ProductCard({product}) {
+  console.log(product);
   return (
     <Grid item xs={12} sm={3} md={2} m={1} >
       <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
@@ -24,13 +25,13 @@ export default function MultiActionAreaCard() {
           />
           <CardContent sx={{ flexGrow: 1 }}>
             <Typography gutterBottom variant="h6" >
-              Product Name
+              {product.productName}
             </Typography>
             <Typography variant='subtitle2'>
-            {/*<Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly />*/}
+            {/* <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly /> */}
             </Typography>
             <Typography variant='subtitle1'>
-              Price
+              {product.price}
             </Typography>
           </CardContent>
         </CardActionArea>

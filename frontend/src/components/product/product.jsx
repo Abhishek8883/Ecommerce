@@ -1,19 +1,24 @@
+import * as React from "react"
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
-import ProductCard from "../product/Productcard"
+import ProductCard from "../product/Productcard";
+import { useSelector } from 'react-redux';
 
 
-const product = () => {
+const Product = () => {
+
+    const {loading,products} = useSelector(state => state.product) 
+
     return (
+        loading?<h1>Loading...</h1>:
         <>
             <Container maxWidth="xl">
 
                 <Grid container justifyContent={'center'} >
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-
+                    
+                {products.map((product,id) => 
+                    <ProductCard key={id} product={product} />
+                )}
                 </Grid>
             </Container>
         </>
@@ -21,4 +26,4 @@ const product = () => {
 }
 
 
-export default product
+export default Product;
