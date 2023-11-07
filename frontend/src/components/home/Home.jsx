@@ -25,12 +25,12 @@ const Home = () => {
     if(data){
       dispatch(setProducts(data.data.products))
     }
-  },[data])
+  },[data,dispatch])
 
 
   return (
     isLoading ? <h1>Loading...</h1> : 
-    ( error?<span>error</span>:
+    ( error?<span>{error.error}</span>:
     ( 
       <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
