@@ -20,7 +20,7 @@ module.exports = {
                 .pagination(resultPerPage);
             const products = await apiFeature.query;
 
-            return successResponseData(res, { products, productCount })
+            return successResponseData(res, { products, productCount,resultPerPage})
 
         }
     ),

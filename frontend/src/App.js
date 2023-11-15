@@ -1,6 +1,8 @@
 import * as React from 'react';
 import Webfont from "webfontloader";
 import {Outlet } from 'react-router-dom';
+import Header from "./components/layout/header/Header"
+import Footer from "./components/layout/footer/footer"
 
 function App() {
 
@@ -14,7 +16,9 @@ function App() {
 
   return (
     <>
+     <Header />
       <Outlet />
+      <Footer />
     </>
   );
 }

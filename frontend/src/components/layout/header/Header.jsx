@@ -24,7 +24,9 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import { CssBaseline } from '@mui/material';
+import { CssBaseline} from '@mui/material';
+import {useNavigate} from "react-router-dom";
+
 
 
 
@@ -72,7 +74,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function Header(props) {
 
+  //  const searchRef = useRef('search')
+  const history = useNavigate();
 
+
+  const [keyword, setKeyword] = React.useState("");
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [state, setState] = React.useState({
@@ -81,6 +87,16 @@ export default function Header(props) {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const searchSubmitHandler = (e) => {
+    e.preventDefault();
+    if (keyword.trim()) {
+      history(`/products/${keyword}`)
+    }
+    else {
+      history("/products")
+    }
+  }
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -221,10 +237,8 @@ export default function Header(props) {
     </Box>
   );
 
-
-
   return (
-    <Box>
+    <Box mb={"4rem"}>
       <CssBaseline />
       <AppBar position="fixed">
         <Toolbar>
@@ -266,15 +280,20 @@ export default function Header(props) {
 
           <Box sx={{ flexGrow: 1 }} />
 
-          <Search>
+          <form onSubmit={searchSubmitHandler}>
+          <Search >
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
+          
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              onChange={(e) => setKeyword(e.target.value)}
+              
             />
           </Search>
+          </form>
 
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">

@@ -1,70 +1,27 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { Box, CardActionArea } from '@mui/material';
-import Grid from '@mui/material/Grid';
-import ReactStars from "react-rating-stars-component";
-import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
+import React from "react";
+import { Link } from "react-router-dom";
+import { Rating } from "@mui/material";
 
-
-export default function ProductCard({ product }) {
- 
-  const description = () => {
-    let desc = product.description
-    if(desc.length > 26){
-      return (desc.substr(0,26) + "...")
-    }
-    return desc
-  }
-
+const ProductCard = ({ product }) => {
+  const options = {
+    value: product.ratings,
+    readOnly: true,
+    precision: 0.5,
+  };
   return (
-    <Grid item xs={12} sm={3} md={2} m={1} >
-      <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-      >
-        <CardActionArea>
-          <CardMedia
-            component="div"
-            sx={{
-              // 16:9
-              pt: '56.25%',
-            }}
-            image="https://source.unsplash.com/random"
-            alt="image"
-          />
-          <CardContent sx={{ flexGrow: 1 }}>
-            <Typography gutterBottom variant="h6" >
-              {product.productName}
-            </Typography>
-            <Typography variant='body2'>
-              {description()}
-            </Typography>
-            
-              <ReactStars
-                count={5}
-                value={product.ratings}
-                size={24}
-                activeColor="#ffd700"
-                edit={false}
-                isHalf={true}
-              />
-              
-            
-            <Typography variant='subtitle1'>
-              <Box display={"flex"} alignItems="center">
-              
-              <CurrencyRupeeIcon fontSize="" />
-              
-              <span>{product.price}</span>  
-              </Box>
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        {/*<CardActions>
-          <Button size="small">Add</Button>
-          </CardActions>*/}
-      </Card>
-    </Grid>
+    <Link className="productCard" to={`/product/${product._id}`}>
+      <img src="https://plus.unsplash.com/premium_photo-1698339161104-841f2fed237c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyfHx8ZW58MHx8fHx8" alt="" />
+      <p>{product.productName}</p>
+      <div>
+        <Rating {...options} />{" "}
+        <span className="productCardSpan">
+          {" "}
+          ({product.numOfReviews} Reviews)
+        </span>
+      </div>
+      <span>{`₹${product.price}`}</span>
+    </Link>
   );
-}
+};
+
+export default ProductCard;

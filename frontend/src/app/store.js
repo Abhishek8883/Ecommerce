@@ -2,7 +2,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import { apiSlice } from "./api/apiSlice";
 import { apiAuthSlice } from "./api/apiAuthSlice";
 import authReducer from '../features/auth/authSlice';
-import productReducer from "../features/product/productSlice"
+import productReducer from "../features/product/productSlice";
+import productDetailReducer from "../features/product/productDetailsSlice"
 
 
 export const store = configureStore({
@@ -10,7 +11,8 @@ export const store = configureStore({
         [apiSlice.reducerPath]: apiSlice.reducer,
         [apiAuthSlice.reducerPath]: apiAuthSlice.reducer,
         "auth": authReducer,
-        "product":productReducer
+        "products":productReducer,
+        "productDetails":productDetailReducer,
     },
     middleware: (defMiddleware) => defMiddleware()
         .concat([
