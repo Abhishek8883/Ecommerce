@@ -6,36 +6,15 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useDispatch } from 'react-redux';
-import Loader from "../layout/loader/Loader"
-import { Alert } from '@mui/material';
 
-
-import { useLazyGetProductsQuery } from "../../features/product/productApiSlice";
 import FeaturedProduct from "./FeaturedProduct";
-import { setProducts } from "../../features/product/productSlice";
 
 const defaultTheme = createTheme();
 
 
 const Home = () => {
-  const { isLoading, data, error } = useLazyGetProductsQuery();
-
-  const dispatch = useDispatch();
-
-  React.useEffect(() => {
-    if (data) {
-      dispatch(setProducts(data.data))
-    }
-  }, [data, dispatch, error])
-
-
   
-
   return (
-    isLoading ? <Loader /> :
-      (error ? <Alert severity="error">{error.error}</Alert> :
-        (
           <ThemeProvider theme={defaultTheme}>
             <CssBaseline />
 
@@ -84,8 +63,6 @@ const Home = () => {
 
           </ThemeProvider>
         )
-      )
-  );
 }
   
 

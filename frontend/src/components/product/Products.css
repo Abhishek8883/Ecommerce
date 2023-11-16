@@ -27,7 +27,7 @@
   margin: 2vmax;
   transition: all 0.5s;
   padding-bottom: 0.5vmax;
-  background-color: rgba(111, 111, 111, 0.037);
+  background-color: rgba(111, 111, 111, 0.088);
 }
 
 .productCard > img {
@@ -144,7 +144,7 @@
   border: 1px solid rgba(0, 0, 0, 0.329);
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 900px) {
   .filterBox {
     width: 20vmax;
     position: static;

@@ -6,7 +6,7 @@ import ProductCard from "../product/ProductCard";
 import Slider from '@mui/material/Slider';
 import MetaData from "../layout/MetaData";
 import { Typography } from "@mui/material";
-import { setProducts,fetchProducts } from "../../features/product/productSlice";
+import { setProducts, fetchProducts } from "../../features/product/productSlice";
 import { useLazyGetProductsQuery } from "../../features/product/productApiSlice";
 import { useParams } from "react-router-dom";
 import Pagination from "react-js-pagination";
@@ -14,50 +14,56 @@ import Pagination from "react-js-pagination";
 
 const Products = () => {
 
+  const dispatch = useDispatch();
+  const minDistance = 1000;
+  const { keyword } = useParams();
+
+
+  const [getProducts] = useLazyGetProductsQuery();
+  const { loading, products, productCount, resultPerPage, filteredProductCount } = useSelector(state => state.products);
+  let count = filteredProductCount; 
+  const categories = [
+    'Laptop',
+    'Footwear',
+    'Clothes',
+    'SmartPhones',
+  ]
+
 
   const [currentPage, setCurrentPage] = React.useState(1);
-  const [price, setPrice] = React.useState([0, 25000]);
-  // const [category, setCategory] = React.useState("");
+  const [price, setPrice] = React.useState([0, 50000]);
+  const [ratings, setRatings] = React.useState(0);
+  const [category, setCategory] = React.useState("");
 
-  const { keyword } = useParams();
-  
-  const dispatch = useDispatch();
-  
-  const [getProducts] = useLazyGetProductsQuery();
-  const { loading,products, productCount, resultPerPage } = useSelector(state => state.products);
-  
-  React.useEffect( () => {
+
+  React.useEffect(() => {
     (async () => {
       dispatch(fetchProducts())
-    const newData = await getProducts([keyword,currentPage],false)
-    if (newData && newData.data) {
-     dispatch(setProducts(newData.data.data))
-    }})()
+      const newData = await getProducts([keyword, currentPage, price,category], false)
+      if (newData && newData.data) {
+        dispatch(setProducts(newData.data.data))
+      }
+    })()
 
-  }, [dispatch,currentPage,keyword,productCount])
+  }, [dispatch, currentPage, keyword, productCount, price,category])
 
-  const [ratings, setRatings] = React.useState(0);
 
-  //   const {
-  //     products,
-  //     loading,
-  //     error,
-  //     productsCount,
-  //     resultPerPage,
-  //     filteredProductsCount,
-  //   } = useSelector((state) => state.products);
-
-  //   const keyword = match.params.keyword;
 
   const setCurrentPageNo = (e) => {
     setCurrentPage(e);
   };
 
-  const priceHandler = (event, newPrice) => {
-    setPrice(newPrice);
-  };
+  const priceHandler = (event, newPrice, activeThumb) => {
+    if (!Array.isArray(newPrice)) {
+      return;
+    }
 
-  //   let count = filteredProductsCount;
+    if (activeThumb === 0) {
+      setPrice([Math.min(newPrice[0], price[1] - minDistance), price[1]]);
+    } else {
+      setPrice([price[0], Math.max(newPrice[1], price[0] + minDistance)]);
+    }
+  };
 
   return (
     <>
@@ -83,21 +89,24 @@ const Products = () => {
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
               min={0}
-              max={25000}
+              max={50000}
+              disableSwap
+              step={5000}
+              marks
             />
 
             <Typography>Categories</Typography>
-            {/* <ul className="categoryBox">
+            <ul className="categoryBox">
               {categories.map((category) => (
                 <li
                   className="category-link"
                   key={category}
-                  onClick={() => setCategory(category)}
+                  onClick={() => setCategory(category.toLowerCase())}
                 >
                   {category}
                 </li>
               ))}
-            </ul> */}
+            </ul>
 
             <fieldset>
               <Typography component="legend">Ratings Above</Typography>
@@ -113,7 +122,8 @@ const Products = () => {
               />
             </fieldset>
           </div>
-          {resultPerPage < productCount && (
+
+          {resultPerPage < count && (
             <div className="paginationBox">
               <Pagination
                 activePage={currentPage}

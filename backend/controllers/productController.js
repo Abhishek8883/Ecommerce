@@ -17,10 +17,16 @@ module.exports = {
             const apiFeature = new ApiFeatures(Product.find(), req.query)
                 .search()
                 .filter()
-                .pagination(resultPerPage);
-            const products = await apiFeature.query;
 
-            return successResponseData(res, { products, productCount,resultPerPage})
+
+            let products = await apiFeature.query;
+
+            let filteredProductCount = products.length;
+
+            apiFeature.pagination(resultPerPage);   
+            products = await apiFeature.query.clone();
+
+            return successResponseData(res, { products, productCount, resultPerPage ,filteredProductCount})
 
         }
     ),
@@ -96,7 +102,7 @@ module.exports = {
 
         console.log(productId);
         const product = await Product.findById(productId);
-        if(!product){
+        if (!product) {
             return next(new ErrorHandler("product not found."))
         }
 
@@ -108,7 +114,7 @@ module.exports = {
             product.reviews.forEach((rev) => {
                 if (rev.createdBy.toString() === rev.user._id.toString()) {
                     rev.rating = rating,
-                    rev.comment = comment
+                        rev.comment = comment
                 }
             })
         } else {
@@ -121,9 +127,9 @@ module.exports = {
             avg += rev.rating;
         })) / product.reviews.length;
 
-        product.save({validateBeforeSave:false});
+        product.save({ validateBeforeSave: false });
 
-        return successResponse(res,"Review submitted successfully.")
+        return successResponse(res, "Review submitted successfully.")
     }),
 
 

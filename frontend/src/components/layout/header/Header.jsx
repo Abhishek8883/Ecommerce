@@ -25,7 +25,7 @@ import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import { CssBaseline} from '@mui/material';
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 
 
@@ -266,17 +266,19 @@ export default function Header(props) {
             </React.Fragment>
           ))}
 
-
+          <Link to={"/"}>
           <Box
             component="img"
             sx={{ height: 54, display: { xs: 'none', sm: 'initial' } }}
             alt="Logo"
             src={logo}
           />
+          </Link>
 
           <Typography variant="h6" color="inherit" component="div" sx={{ m: -2, display: { xs: 'none', sm: 'initial' } }} >
             Eshop
           </Typography>
+          
 
           <Box sx={{ flexGrow: 1 }} />
 
