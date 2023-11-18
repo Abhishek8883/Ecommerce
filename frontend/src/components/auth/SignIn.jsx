@@ -63,10 +63,10 @@ export default function SignIn() {
         userData = await login({ email, password }).unwrap()
         userData = JSON.parse(JSON.stringify(userData))
       }
-      if (userData) {
-        const token = userData.data.accessToken;
-        dispatch(setCredentials({ ...userData.data }))
-        setCookie(AUTH_COOKIE,token)
+      if (userData.success) {
+        const {user,accessToken} = userData.data;
+        dispatch(setCredentials({ user,isAuthenticated:true,accessToken}))
+        setCookie(AUTH_COOKIE,accessToken)
         navigate('/', { replace: true })
       }
     } catch (err) {

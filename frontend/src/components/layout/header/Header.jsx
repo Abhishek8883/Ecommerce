@@ -21,7 +21,7 @@ import ListItemText from '@mui/material/ListItemText';
 import List from '@mui/material/List';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import { CssBaseline } from '@mui/material';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import HomeIcon from '@mui/icons-material/Home';
 import CategoryIcon from '@mui/icons-material/Category';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -105,14 +105,20 @@ export default function Header(props) {
     handleMobileMenuClose()
     handleMenuClose()
     dispatch(removeCredentials());
-    removeCookie(AUTH_COOKIE)
+    removeCookie(AUTH_COOKIE);
     logOut();
+    history("/login")
   }
 
   const loginHandler = () => {
     handleMobileMenuClose()
     handleMenuClose()
-    history("/login")
+  }
+
+  const profileHandler = () => {
+    handleMobileMenuClose()
+    handleMenuClose()
+    history("/profile")
   }
 
   const searchSubmitHandler = (e) => {
@@ -159,8 +165,7 @@ export default function Header(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={profileHandler}>Profile</MenuItem>
       {!loading && isAuthenticated ? 
        <MenuItem onClick={logoutHandler}>Logout</MenuItem>
        :
@@ -202,7 +207,7 @@ export default function Header(props) {
         <p>Cart</p>
       </MenuItem>
 
-      <MenuItem onClick={handleProfileMenuOpen}>
+      <MenuItem >
         <IconButton
           size="large"
           aria-label="account of current user"

@@ -37,7 +37,7 @@ function App() {
           
           if (userData.success) {
             dispatch(setCredentials({
-              user: userData, accessToken: token, isAuthenticated: true
+              user: userData.data, accessToken: token, isAuthenticated: true
             }))
           }
         }
