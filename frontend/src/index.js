@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { Provider } from "react-redux";
 import { store } from './app/store';
-import { RouterProvider,createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 
 import Home from "./components/home/Home";
 import SignIn from "./components/auth/SignIn";
@@ -12,21 +14,19 @@ import ProductDetails from './components/product/ProductDetails';
 import Products from "./components/product/Products"
 
 
-
+const defaultTheme = createTheme();
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path='' >
-      <Route  path='/login' element ={<SignIn/>}/>
-      <Route  path='/register' element ={<SignUp/>}/>
-
       <Route path='/' element={<App />}>
-        <Route path='' element={<Home />}/>
-        <Route path='/products' element={<Products /> } />
-        <Route path='/products/:keyword' element={<Products /> } />
-        <Route path='/product/:productId' element={<ProductDetails /> } />
-      </Route>
-      
+        
+        <Route path='' element={<Home />} />
+        <Route path='/login' element={<SignIn />} />
+        <Route path='/register' element={<SignUp />} />
+        <Route path='/products' element={<Products />} />
+        <Route path='/products/:keyword' element={<Products />} />
+        <Route path='/product/:productId' element={<ProductDetails />} />
+ 
     </Route>
   )
 )
@@ -34,7 +34,9 @@ const router = createBrowserRouter(
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router}/>
+      <ThemeProvider theme={defaultTheme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </Provider>
   </React.StrictMode>
 );

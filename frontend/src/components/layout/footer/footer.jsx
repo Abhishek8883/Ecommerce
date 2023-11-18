@@ -6,7 +6,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="./">
+      <Link color="inherit" href="/">
         Eshop
       </Link>{' '}
       {new Date().getFullYear()}
@@ -17,10 +17,10 @@ function Copyright() {
 
 const footer = () => {
   return (
-    <Box sx={{ bgcolor: '#b6b8ba', p: 1 , mt:"2rem" }} component="footer">
-        <Typography variant="h6" align="center" gutterBottom>
+    <Box sx={{ bgcolor: '#b6b8ba', p: 2, mt:"2rem" , position:"static" ,bottom:0 , width:"100%" }} component="footer" >
+        {/* <Typography variant="h6" align="center" gutterBottom>
           Eshop
-        </Typography>
+        </Typography> */}
         <Typography
           variant="subtitle1"
           align="center"

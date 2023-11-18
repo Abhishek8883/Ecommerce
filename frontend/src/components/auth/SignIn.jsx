@@ -11,12 +11,16 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Alert, AlertTitle } from '@mui/material';
+
 
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setCredentials } from '../../features/auth/authSlice';
-import { useLoginMutation } from '../../app/api/apiAuthSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCredentials, setError } from '../../features/auth/authSlice';
+import { useLoginMutation } from '../../features/auth/authApiSlice';
+import {setCookie} from "../../utils/Cookie";
+import { AUTH_COOKIE } from '../../constants/Constants';
+
 
 function Copyright(props) {
 
@@ -32,14 +36,19 @@ function Copyright(props) {
   );
 }
 
-
-const defaultTheme = createTheme();
-
 export default function SignIn() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [login] = useLoginMutation();
+  const [login,{isLoading}] = useLoginMutation();
+
+  const { user, error, loading,isAuthenticated } = useSelector(state => state.auth)
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/")
+    }
+  }, [isAuthenticated])
 
 
   const handleSubmit = async (event) => {
@@ -48,18 +57,33 @@ export default function SignIn() {
       const formData = new FormData(event.currentTarget);
       const email = formData.get('email');
       const password = formData.get('password');
-      let userData = await login({ email, password }).unwrap()
-      userData = JSON.parse(JSON.stringify(userData))    
-      dispatch(setCredentials({...userData.data}))  
-      navigate('/')
+      let userData = null;
+
+      if(email !== "" && password !== ""){
+        userData = await login({ email, password }).unwrap()
+        userData = JSON.parse(JSON.stringify(userData))
+      }
+      if (userData) {
+        const token = userData.data.accessToken;
+        dispatch(setCredentials({ ...userData.data }))
+        setCookie(AUTH_COOKIE,token)
+        navigate('/', { replace: true })
+      }
     } catch (err) {
-      console.log(err);
+      dispatch(setError(err.error))
     }
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
+    error ? (<Container maxWidth="100%" sx={{ align: "center", mt: "5rem", height: "70vh" }}>
+     
+      <Alert severity="error">
+      <AlertTitle >Error</AlertTitle>
+        {error}
+        </Alert>
+    </Container>)
+      :
+      (<Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
@@ -100,14 +124,24 @@ export default function SignIn() {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
-            <Button
+           {isLoading ?  <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled
             >
-              Sign In
+              Sigining In
             </Button>
+            :
+             <Button
+             type="submit"
+             fullWidth
+             variant="contained"
+             sx={{ mt: 3, mb: 2 }}
+           >
+             Sign In
+           </Button>}
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
@@ -115,7 +149,7 @@ export default function SignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/register" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
@@ -123,7 +157,6 @@ export default function SignIn() {
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
-      </Container>
-    </ThemeProvider>
+      </Container>)
   );
 }

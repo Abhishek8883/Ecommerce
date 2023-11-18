@@ -15,30 +15,7 @@ import { setProducts, fetchProducts } from "../../features/product/productSlice"
 import Loader from "../layout/loader/Loader";
 
 
-const Product = () => {
-
-    const [getProducts] = useLazyGetProductsQuery();
-    const { products, loading } = useSelector(state => state.products);
-    const { keyword } = useParams();
-
-
-    const dispatch = useDispatch();
-    
-
-    React.useEffect(() => {
-        (async () => {
-            fetchProducts()
-            const newData = await getProducts([keyword, 1])
-            if (newData && newData.data) {
-                dispatch(setProducts(newData.data.data))
-            }
-            if(newData.error){
-                return <Alert severity="error">{newData.error.error}</Alert>
-            }
-        })()
-
-    }, [dispatch])
-
+const Product = ({products}) => {
 
     const description = (product) => {
         let desc = product.description
@@ -101,7 +78,7 @@ const Product = () => {
     }
 
     return (
-        loading ? <Loader /> :
+       
             (<Container maxWidth="xl">
                 <Grid container justifyContent={'center'} >
 

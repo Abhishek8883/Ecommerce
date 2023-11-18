@@ -39,13 +39,13 @@ const Products = () => {
   React.useEffect(() => {
     (async () => {
       dispatch(fetchProducts())
-      const newData = await getProducts([keyword, currentPage, price,category], false)
+      const newData = await getProducts([keyword, currentPage, price,category,ratings], false)
       if (newData && newData.data) {
         dispatch(setProducts(newData.data.data))
       }
     })()
 
-  }, [dispatch, currentPage, keyword, productCount, price,category])
+  }, [dispatch, currentPage, keyword, productCount, price,category,ratings])
 
 
 
@@ -81,7 +81,8 @@ const Products = () => {
               ))}
           </div>
 
-          <div className="filterBox">
+          <div className="filterBox"phome>
+            <Typography variant="h6" mb="2rem">Filters</Typography>
             <Typography>Price</Typography>
             <Slider
               value={price}

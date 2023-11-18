@@ -96,7 +96,6 @@ const ProductDetails = (props) => {
         <Loader />
       ) : (
         <Fragment>
-          <Header />
           <MetaData title={`${product.productName} -- ECOMMERCE`} />
           <div className="ProductDetails">
             <div>
@@ -193,7 +192,7 @@ const ProductDetails = (props) => {
           </Dialog>
 
           {product.reviews && product.reviews[0] ? (
-            <div className="reviews">
+            <div className="reviews" m="5rem">
               {console.log(product.reviews)}
               {product.reviews &&
                 product.reviews.map((review) => (
@@ -202,7 +201,7 @@ const ProductDetails = (props) => {
                 ))}
             </div>
           ) : (
-            <p className="noReviews">No Reviews Yet</p>
+            <p className="noReviews"  m="5rem">No Reviews Yet</p>
           )}
         </Fragment>
       )}

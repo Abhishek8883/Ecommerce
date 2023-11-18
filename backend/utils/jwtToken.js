@@ -7,7 +7,7 @@ const saveToken = (res,user,statusCode=200)=>{
         expire:new Date(
             Date.now + process.env.COOKIE_EXPIRE*24*60*60*1000
         ),
-        httpOnly:true
+        httpOnly:false
     }
 
     res.status(statusCode).cookie('authorization',token,options).send({

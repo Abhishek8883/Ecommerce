@@ -12,20 +12,28 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import logo from "../../../images/logo.png";
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import { CssBaseline} from '@mui/material';
-import {Link, useNavigate} from "react-router-dom";
+import { CssBaseline } from '@mui/material';
+import { Link, useNavigate } from "react-router-dom";
+import HomeIcon from '@mui/icons-material/Home';
+import CategoryIcon from '@mui/icons-material/Category';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import LogoutIcon from '@mui/icons-material/Logout';
+import LoginIcon from '@mui/icons-material/Login';
+
+
+import { useDispatch, useSelector } from 'react-redux';
+import { removeCredentials } from '../../../features/auth/authSlice';
+import {useLazyLogoutQuery} from "../../../features/auth/authApiSlice"
+import { removeCookie } from '../../../utils/Cookie';
+import { AUTH_COOKIE } from '../../../constants/Constants';
 
 
 
@@ -75,7 +83,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function Header(props) {
 
   //  const searchRef = useRef('search')
+  const dispatch  = useDispatch()
   const history = useNavigate();
+  const [logOut] = useLazyLogoutQuery();
+
+  const { isAuthenticated,loading} = useSelector(state => state.auth)
 
 
   const [keyword, setKeyword] = React.useState("");
@@ -87,6 +99,21 @@ export default function Header(props) {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+
+  const logoutHandler = () => {
+    handleMobileMenuClose()
+    handleMenuClose()
+    dispatch(removeCredentials());
+    removeCookie(AUTH_COOKIE)
+    logOut();
+  }
+
+  const loginHandler = () => {
+    handleMobileMenuClose()
+    handleMenuClose()
+    history("/login")
+  }
 
   const searchSubmitHandler = (e) => {
     e.preventDefault();
@@ -134,6 +161,11 @@ export default function Header(props) {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      {!loading && isAuthenticated ? 
+       <MenuItem onClick={logoutHandler}>Logout</MenuItem>
+       :
+       <MenuItem onClick={loginHandler}>Login</MenuItem>
+      }
     </Menu>
   );
 
@@ -156,26 +188,20 @@ export default function Header(props) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
+
       <MenuItem>
         <IconButton
           size="large"
-          aria-label="show 17 new notifications"
+          aria-label="show cart items"
           color="inherit"
         >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
+          <Badge badgeContent={0} color="error">
+            <ShoppingCartIcon />
           </Badge>
         </IconButton>
-        <p>Notifications</p>
+        <p>Cart</p>
       </MenuItem>
+
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
@@ -188,6 +214,31 @@ export default function Header(props) {
         </IconButton>
         <p>Profile</p>
       </MenuItem>
+
+      {isAuthenticated ?
+        <MenuItem>
+          <IconButton onClick={logoutHandler}
+            size="large"
+            aria-label="login / logout"
+            color="inherit"
+          >
+            <LogoutIcon />
+          </IconButton>
+          <p>Logout</p>
+        </MenuItem>
+        :
+        <MenuItem>
+          <IconButton
+            size="large"
+            aria-label="login / logout"
+            color="inherit"
+            onClick={loginHandler}
+          >
+            <LoginIcon />
+          </IconButton>
+          <p>Login</p>
+        </MenuItem>
+      }
     </Menu>
   );
 
@@ -210,35 +261,33 @@ export default function Header(props) {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => { history("/") }}>
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText>Home</ListItemText>
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => { history("/products") }}>
+            <ListItemIcon>
+              <CategoryIcon />
+            </ListItemIcon>
+            <ListItemText >Products</ListItemText>
+          </ListItemButton>
+        </ListItem>
+
       </List>
     </Box>
   );
 
+
+
   return (
-    <Box mb={"4rem"}>
+    <Box mb={"6rem"}>
       <CssBaseline />
       <AppBar position="fixed">
         <Toolbar>
@@ -267,49 +316,45 @@ export default function Header(props) {
           ))}
 
           <Link to={"/"}>
-          <Box
-            component="img"
-            sx={{ height: 54, display: { xs: 'none', sm: 'initial' } }}
-            alt="Logo"
-            src={logo}
-          />
+            <Box
+              component="img"
+              sx={{ height: 54, display: { xs: 'none', sm: 'initial' } }}
+              alt="Logo"
+              src={logo}
+            />
           </Link>
 
           <Typography variant="h6" color="inherit" component="div" sx={{ m: -2, display: { xs: 'none', sm: 'initial' } }} >
             Eshop
           </Typography>
-          
+
 
           <Box sx={{ flexGrow: 1 }} />
 
           <form onSubmit={searchSubmitHandler}>
-          <Search >
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-          
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-              onChange={(e) => setKeyword(e.target.value)}
-              
-            />
-          </Search>
+            <Search >
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ 'aria-label': 'search' }}
+                onChange={(e) => setKeyword(e.target.value)}
+
+              />
+            </Search>
           </form>
 
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
+
             <IconButton
               size="large"
-              aria-label="show 17 new notifications"
+              aria-label="show Cart items"
               color="inherit"
             >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
+              <Badge badgeContent={1} color="error">
+                <ShoppingCartIcon />
               </Badge>
             </IconButton>
             <IconButton

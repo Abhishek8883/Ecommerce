@@ -4,6 +4,7 @@ const errorMiddleware = require("./middlewares/error");
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const fileUpload = require('express-fileupload')
 // const path = require('path');
 const i18n = require('./i18n/i18n');
 
@@ -12,6 +13,7 @@ const i18n = require('./i18n/i18n');
 //body parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(fileUpload());
 
 //logger
 app.use(logger('dev'));

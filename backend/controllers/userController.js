@@ -5,6 +5,7 @@ const saveToken  = require("../utils/jwtToken");
 const sendEmail = require("../utils/sendEmail");
 const {successResponse,successResponseData} = require("../services/response");
 const crypto = require("crypto");
+const cloudinary = require("cloudinary");
 
 module.exports = {
 
@@ -155,6 +156,10 @@ module.exports = {
 
 
     updateUserProfile : catchAsyncErrors(async (req,res,next) => {
+
+        // if(req.file){
+
+        // }
 
         const {name,email} = req.body;
 
