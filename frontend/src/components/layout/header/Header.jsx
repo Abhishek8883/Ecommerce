@@ -30,8 +30,8 @@ import LoginIcon from '@mui/icons-material/Login';
 
 
 import { useDispatch, useSelector } from 'react-redux';
-import { removeCredentials } from '../../../features/auth/authSlice';
-import {useLazyLogoutQuery} from "../../../features/auth/authApiSlice"
+import { removeCredentials } from '../../../features/user/userSlice';
+import {useLazyLogoutQuery} from "../../../features/user/userApiSlice"
 import { removeCookie } from '../../../utils/Cookie';
 import { AUTH_COOKIE } from '../../../constants/Constants';
 
@@ -87,7 +87,7 @@ export default function Header(props) {
   const history = useNavigate();
   const [logOut] = useLazyLogoutQuery();
 
-  const { isAuthenticated,loading} = useSelector(state => state.auth)
+  const { isAuthenticated,loading} = useSelector(state => state.user)
 
 
   const [keyword, setKeyword] = React.useState("");

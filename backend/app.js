@@ -17,13 +17,18 @@ app.use(fileUpload());
 
 //logger
 app.use(logger('dev'));
- 
+
 //cookie parser
 app.use(cookieParser());
 
 
-//cors for cross-origin scripts
-app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
+const corsOptions = {
+    credentials: true, origin: 'http://localhost:3000', 
+}
+
+// cors for cross-origin scripts
+app.use(cors(corsOptions));
+
 
 //i18n for locals
 app.use(i18n)
@@ -35,9 +40,11 @@ const userRouter = require("./routes/userRoute");
 const orderRouter = require("./routes/orderRoute");
 
 
-app.use("/api/v1",productRouter);
-app.use("/api/v1",userRouter);
-app.use("/api/v1",orderRouter); 
+app.use("/api/v1", productRouter);
+app.use("/api/v1", userRouter);
+app.use("/api/v1", orderRouter);
+
+
 
 
 //middleware for errors

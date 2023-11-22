@@ -16,8 +16,8 @@ import { Alert, AlertTitle } from '@mui/material';
 
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCredentials, setError } from '../../features/auth/authSlice';
-import { useLoginMutation } from '../../features/auth/authApiSlice';
+import { setCredentials, setError } from '../../features/user/userSlice';
+import { useLoginMutation } from '../../features/user/userApiSlice';
 import {setCookie} from "../../utils/Cookie";
 import { AUTH_COOKIE } from '../../constants/Constants';
 
@@ -42,7 +42,7 @@ export default function SignIn() {
   const dispatch = useDispatch();
   const [login,{isLoading}] = useLoginMutation();
 
-  const { user, error, loading,isAuthenticated } = useSelector(state => state.auth)
+  const {error,isAuthenticated } = useSelector(state => state.user)
 
   React.useEffect(() => {
     if (isAuthenticated) {

@@ -13,7 +13,9 @@ import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import ProductDetails from './components/product/ProductDetails';
 import Products from "./components/product/Products";
-import Profile from "./components/user/Profile"
+import Profile from "./components/user/Profile";
+import UpdateProfile from "./components/user/UpdateProfile";
+import ResetPassword from "./components/user/ResetPassword";
 
 
 const defaultTheme = createTheme();
@@ -27,11 +29,14 @@ const router = createBrowserRouter(
       <Route path='/register' element={<SignUp />} />
       <Route path='/products' element={<Products />} />
       <Route path='/products/:keyword' element={<Products />} />
-      <Route path="/product/:productId" element ={<ProductDetails />} />
+      <Route path="/product/:productId" element={<ProductDetails />} />
       <Route path='/profile'
-        element={<ProtectedRoute>
-          <Profile />
-        </ProtectedRoute>} />
+        element={<ProtectedRoute>  <Profile /> </ProtectedRoute>} />
+
+      <Route path='/profile/update'
+        element={<ProtectedRoute> <UpdateProfile /> </ProtectedRoute>} />
+
+      <Route path='/password/update' element={<ProtectedRoute> <ResetPassword />  </ProtectedRoute>} />
 
     </Route>
   )

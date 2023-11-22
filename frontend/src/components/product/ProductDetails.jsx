@@ -2,9 +2,8 @@ import React, { Fragment, useEffect, useState } from "react";
 import Carousel from "react-material-ui-carousel";
 import "./ProductDetails.css";
 import { useSelector, useDispatch } from "react-redux";
-import ReviewCard from "./ReviewCard.js";
+import ReviewCard from "./ReviewCard";
 import Loader from "../layout/loader/Loader";
-import { useAlert } from "react-alert";
 import MetaData from "../layout/MetaData";
 import {
   Dialog,
@@ -16,7 +15,6 @@ import {
 } from "@mui/material";
 import { useGetProductDetailsQuery } from "../../features/product/productApiSlice";
 import {useParams} from "react-router-dom";
-import Header from "../layout/header/Header";
 import {setProductDetails,getProductDetails} from "../../features/product/productDetailsSlice"
 
 
@@ -81,7 +79,7 @@ const ProductDetails = (props) => {
 
     myForm.set("rating", rating);
     myForm.set("comment", comment);
-    // myForm.set("productId", match.params.id);
+    myForm.set("productId", productId);
 
     // dispatch(newReview(myForm));
 
