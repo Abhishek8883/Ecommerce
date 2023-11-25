@@ -32,7 +32,7 @@ module.exports = (err,req,res,next) => {
 
     res.status(err.statusCode).json({
         success:false,
-        // message:res.locals.__(err.message),
-        err:err.stack
+        message:res.locals.__(err.message),
+        // err:err.message
     })
 }

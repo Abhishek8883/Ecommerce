@@ -11,6 +11,14 @@ export const userApiSlice = apiSlice.injectEndpoints({
             })
         }),
 
+        register:builder.mutation({
+            query: (credentials) => ({
+                url: 'register',
+                method: 'POST',
+                body: { ...credentials }
+            })
+        }),
+
         getUserDetails: builder.query({
             query: () => 'getLoggedUser',
             keepUnusedDataFor: 0.0001
@@ -26,10 +34,10 @@ export const userApiSlice = apiSlice.injectEndpoints({
         }),
 
         resetPassword: builder.mutation({
-            query: (newPassword) => ({
+            query: (formdata) => ({
                 url: 'password/update',
                 method: 'PUT',
-                body:newPassword,
+                body:formdata,
                 formData:true,
             })
         }),
@@ -43,8 +51,10 @@ export const userApiSlice = apiSlice.injectEndpoints({
 
 export const {
     useLoginMutation,
+    useRegisterMutation,
     useLazyGetUserDetailsQuery,
     useLazyLogoutQuery,
     useUpdateProfileMutation,
-    useResetPasswordMutation
+    useResetPasswordMutation,
+
 } = userApiSlice;

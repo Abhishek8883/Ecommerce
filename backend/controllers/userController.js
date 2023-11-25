@@ -15,8 +15,8 @@ module.exports = {
         const user = await User.create({
             name, email, password,
             avatar: {
-                public_id: avatar.public_id,
-                url: avatar.url
+                public_id: (avatar && avatar.public_id) || "",
+                url: (avatar && avatar.url) || ""
             }
         })
 
@@ -136,19 +136,22 @@ module.exports = {
 
 
     updateUserPassword: catchAsyncErrors(async (req, res, next) => {
+
+        const { oldPassword, newPassword, confirmPassword } = req.body;
+
         const user = await User.findById(req.user.id).select("+password");
 
-        const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
+        const isPasswordMatched = await user.comparePassword(oldPassword);
 
         if (!isPasswordMatched) {
             return next(new ErrorHandler("Old password is incorrect", 400));
         }
 
-        if (req.body.newPassword !== req.body.confirmPassword) {
+        if (newPassword !== confirmPassword) {
             return next(new ErrorHandler("Password does not match", 400));
         }
 
-        user.password = req.body.newPassword;
+        user.password = newPassword;
         await user.save();
 
         saveToken(res, user);
@@ -157,38 +160,29 @@ module.exports = {
 
     updateUserProfile: catchAsyncErrors(async (req, res, next) => {
 
-        const { name, email,avatar} = req.body;
+        const { name, email, avatar } = req.body;
 
-        if (avatar) {
-            const myCloud = await cloudinary.v2.uploader.upload(avatar, {
-                folder: "avatars",
-                width: 150,
-                height: 200,
-                crop: "scale",
-            });
+        let user = await User.findById(req.user.id);
+        console.log(user);
 
-            const user = await User.findByIdAndUpdate(req.user.id, {
-                name, email, avatar: {
-                    public_id: myCloud.public_id,
-                    url: myCloud.secure_url,
-                },
-            }, {
-                new: true,
-                runValidators: true,
-                useFindAndModify: false
-            })
+        if (user) {
+            user.name = name;
+            user.email = email;
 
-            return successResponse(res, "User updated successfully.", 202)
+            if (avatar) {
+                const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+                    folder: "avatars",
+                    width: 150,
+                    height: 200,
+                    crop: "scale",
+                });
 
+                user.avatar.public_id = myCloud.public_id;
+                user.avatar.url = myCloud.secure_url;
+            }
+
+            await user.save();
         }
-       
-        const user = await User.findByIdAndUpdate(req.user.id, {
-            name, email
-        }, {
-            new: true,
-            runValidators: true,
-            useFindAndModify: false
-        })
 
         return successResponse(res, "User updated successfully.", 202)
     }),

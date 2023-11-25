@@ -20,6 +20,7 @@ import { setCredentials, setError } from '../../features/user/userSlice';
 import { useLoginMutation } from '../../features/user/userApiSlice';
 import {setCookie} from "../../utils/Cookie";
 import { AUTH_COOKIE } from '../../constants/Constants';
+import {useAlert} from "react-alert";
 
 
 function Copyright(props) {
@@ -41,6 +42,7 @@ export default function SignIn() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [login,{isLoading}] = useLoginMutation();
+  const alert  = useAlert();
 
   const {error,isAuthenticated } = useSelector(state => state.user)
 
@@ -69,20 +71,14 @@ export default function SignIn() {
         setCookie(AUTH_COOKIE,accessToken)
         navigate('/', { replace: true })
       }
-    } catch (err) {
-      dispatch(setError(err.error))
+    } catch (error) {
+      console.log(error);
+      alert.error(error.data.message || "Something went wrong")
+      // dispatch(setError(error.error))
     }
   };
 
   return (
-    error ? (<Container maxWidth="100%" sx={{ align: "center", mt: "5rem", height: "70vh" }}>
-     
-      <Alert severity="error">
-      <AlertTitle >Error</AlertTitle>
-        {error}
-        </Alert>
-    </Container>)
-      :
       (<Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

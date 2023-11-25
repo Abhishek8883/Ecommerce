@@ -7,5 +7,9 @@
 	"User updated successfully.": "User updated successfully.",
 	"Role updated successfully.": "Role updated successfully.",
 	"User deleted successfully.": "User deleted successfully.",
-	"Order placed successfully": "Order placed successfully"
+	"Order placed successfully": "Order placed successfully",
+	"Invalid email or password.": "Invalid email or password.",
+	"Duplicate email Entered": "Duplicate email Entered",
+	"Cannot read properties of null (reading 'id')": "Cannot read properties of null (reading 'id')",
+	"User validation failed: password: Password should contain atleast 8 characters.": "User validation failed: password: Password should contain atleast 8 characters."
 }

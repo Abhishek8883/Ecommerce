@@ -48,8 +48,8 @@ const Home = () => {
         error ?
           <Container maxWidth="100%" sx={{ align: "center", mt: "5rem", height: "70vh" }}>
             <Alert severity="error">
-            <AlertTitle >Error</AlertTitle>
-            {error}</Alert>
+              <AlertTitle >Error</AlertTitle>
+              {error}</Alert>
           </Container>
           :
           (
@@ -85,19 +85,26 @@ const Home = () => {
                       justifyContent="center"
                     >
                       <Link to={"/products"}>
-                      <Button variant="contained">Explore</Button>
+                        <Button variant="contained">Explore</Button>
                       </Link>
                       <Button variant="outlined">Become a seller</Button>
                     </Stack>
                   </Container>
                   <br />
                   {/* product component */}
-                  <Typography variant="h6" align="center">Featured</Typography>
-                  <br />
-                  <Container maxWidth="xl" >
-                    <FeaturedProduct products={products} />
-                  </Container>
-
+                  {(products && products.length > 0) ?
+                    (
+                      <>
+                        <Typography variant="h6" align="center">Featured</Typography>
+                        <br />
+                        <Container maxWidth="xl" >
+                          <FeaturedProduct products={products} />
+                        </Container>
+                      </>
+                    )
+                    :
+                    <Typography variant="h6" align="center">No Products Yet</Typography>
+                  }
                 </Box>
 
               </main>

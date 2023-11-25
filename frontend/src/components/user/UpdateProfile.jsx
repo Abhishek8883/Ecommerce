@@ -9,13 +9,14 @@ import { useDispatch, useSelector } from "react-redux";
 import MetaData from "../layout/MetaData";
 import { useUpdateProfileMutation } from "../../features/user/userApiSlice";
 import {useNavigate} from "react-router-dom"
+import { useAlert } from "react-alert";
 
 const UpdateProfile = ({ history }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const alert = useAlert();
+  const alert = useAlert();
 
-  const [updateProfile] = useUpdateProfileMutation();
+  const [updateProfile,{isLoading,data,error}] = useUpdateProfileMutation();
   const { user } = useSelector((state) => state.user);
 
   const [name, setName] = useState("");
@@ -33,8 +34,13 @@ const UpdateProfile = ({ history }) => {
     myForm.append("email", email);
     myForm.append("avatar", avatar);
     updateProfile(myForm);
-    navigate("/profile")
-    
+    if(!isLoading){
+      alert.success(data.message)
+      navigate("/profile")
+    }
+    if(error){
+      alert.error(error.data.messege)
+    }
   };
 
   const updateProfileDataChange = (e) => {
