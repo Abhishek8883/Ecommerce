@@ -65,9 +65,9 @@ module.exports = {
 
             const userId = req.user._id;
             const productId = req.params.id;
-            const {quantity} = req.body;
+            const { quantity } = req.body;
 
-            if(quantity < 1){
+            if (quantity < 1) {
                 return next(new ErrorHandler("Quantity Should be atleast 1."))
             }
 
@@ -114,7 +114,23 @@ module.exports = {
 
             return successResponse(res, "Item removed from cart.", 202)
         }
-    )
+    ),
 
+    getCartItemsNumber: catchAsyncErrors(
+        async (req, res, next) => {
+            const userId = req.user._id;
+
+            const foundUser = await Cart.findOne({ userId });
+
+            if (foundUser) {
+                const totalItems = foundUser.items.length;
+
+                return successResponseData(res,{totalItems},"Items fetched successfully.")
+            }
+            else{
+                return next(new ErrorHandler("User not found.",404))
+            }
+        }
+    )
 
 }

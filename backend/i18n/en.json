@@ -40,5 +40,6 @@
 	"Cart validation failed: items.0.quantity: Cast to Number failed for value \"{ quantity: '4' }\" (type Object) at path \"quantity\"": "Cart validation failed: items.0.quantity: Cast to Number failed for value \"{ quantity: '4' }\" (type Object) at path \"quantity\"",
 	"Quantity updated successfully to - 4 .": "Quantity updated successfully to - 4 .",
 	"Quantity updated successfully to - 6 .": "Quantity updated successfully to - 6 .",
-	"Quantity Should be atleast 1.": "Quantity Should be atleast 1."
+	"Quantity Should be atleast 1.": "Quantity Should be atleast 1.",
+	"Items fetched successfully.": "Items fetched successfully."
 }
