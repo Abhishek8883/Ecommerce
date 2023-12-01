@@ -7,6 +7,8 @@
   display: flex;
 }
 
+
+
 .ProductDetails > div {
   width: 100%;
   display: flex;
@@ -15,7 +17,7 @@
   align-items: center;
   padding: 2vmax;
   box-sizing: border-box;
-  border: 1px solid white;
+  /* border: 1px solid black; */
 }
 
 .ProductDetails > div:last-child {
@@ -23,7 +25,8 @@
 }
 
 .CarouselImage {
-  width: 20vmax;
+  height:50vh;
+  width: 20vw;
 }
 
 .detailsBlock-1 > h2 {
@@ -80,7 +83,7 @@
 .detailsBlock-3-1-1 > input {
   border: none;
   padding: 0.5vmax;
-  width: 1vmax;
+  width: 2rem;
   text-align: center;
   outline: none;
   font: 400 0.8vmax "Roboto";

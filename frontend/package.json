@@ -13,6 +13,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.5.1",
+    "http-proxy-middleware": "^2.0.6",
     "react": "^18.2.0",
     "react-alert": "^7.0.3",
     "react-alert-template-basic": "^1.0.2",
@@ -55,5 +56,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://192.168.172.136:4000"
+  "options": {
+    "allowedHosts": ["localhost", ".localhost"],
+    "proxy": "https://localhost:3000/"
+  }
 }

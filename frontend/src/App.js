@@ -51,7 +51,7 @@ function App() {
       }
     })()
 
-  }, [dispatch])
+  }, [dispatch,getUserDetails])
 
 
   return (

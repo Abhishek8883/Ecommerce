@@ -13,7 +13,7 @@ const Profile = ({ history }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { user, isAuthenticated,loading} = useSelector(state => state.user);
+  const { user,loading} = useSelector(state => state.user);
   const [getUserDetails] = useLazyGetUserDetailsQuery();
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const Profile = ({ history }) => {
       }
 
     })()
-  }, [navigate]);
+  }, [navigate,dispatch,getUserDetails]);
 
 
 

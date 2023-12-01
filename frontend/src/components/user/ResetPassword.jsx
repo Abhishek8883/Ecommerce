@@ -1,8 +1,8 @@
 import React, { Fragment, useState, useEffect } from "react";
 import "./ResetPassword.css";
-import Loader from "../layout/loader/Loader";
+// import Loader from "../layout/loader/Loader";
 import { useDispatch } from "react-redux";
-// import { useAlert } from "react-alert";
+import { useAlert } from "react-alert";
 import MetaData from "../layout/MetaData";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LockIcon from "@mui/icons-material/Lock";
@@ -14,7 +14,7 @@ const ResetPassword = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [resetPassword] = useResetPasswordMutation();
-  // const alert = useAlert();
+  const alert = useAlert();
 
   const [oldPassword, setOldPassword] = useState("");
   const [password, setPassword] = useState("");
@@ -37,7 +37,7 @@ const ResetPassword = () => {
         }
 
       } catch (error) {
-        console.log(error.data)
+        alert.error(error.data)
       }
     }
   };

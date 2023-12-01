@@ -14,13 +14,13 @@ import {
   Rating
 } from "@mui/material";
 import { useGetProductDetailsQuery } from "../../features/product/productApiSlice";
-import {useParams} from "react-router-dom";
-import {setProductDetails,getProductDetails} from "../../features/product/productDetailsSlice"
+import { useParams } from "react-router-dom";
+import { setProductDetails, getProductDetails } from "../../features/product/productDetailsSlice"
 
 
 const ProductDetails = (props) => {
 
-  
+
   const [quantity, setQuantity] = useState(1);
   const [open, setOpen] = useState(false);
   const [rating, setRating] = useState(0);
@@ -28,18 +28,18 @@ const ProductDetails = (props) => {
 
 
   const dispatch = useDispatch();
-  const {productId} = useParams();
-  const {data,error} = useGetProductDetailsQuery(productId);
-  
+  const { productId } = useParams();
+  const { data, error } = useGetProductDetailsQuery(productId);
+
   useEffect(() => {
     dispatch(getProductDetails())
-    if(data){
+    if (data) {
       dispatch(setProductDetails(data.data))
     }
-    
-  }, [data,error,dispatch])
 
-  const {product,loading} = useSelector(state => state.productDetails)
+  }, [data, error, dispatch])
+
+  const { product, loading } = useSelector(state => state.productDetails)
 
   // const alert = useAlert();
 
@@ -88,7 +88,7 @@ const ProductDetails = (props) => {
 
 
   return (
-    
+
     <Fragment>
       {loading ? (
         <Loader />
@@ -96,7 +96,7 @@ const ProductDetails = (props) => {
         <Fragment>
           <MetaData title={`${product.productName} -- ECOMMERCE`} />
           <div className="ProductDetails">
-            <div>
+            <div className="Carousel_container">
               <Carousel>
                 {product.images &&
                   product.images.map((item, i) => (
@@ -110,7 +110,8 @@ const ProductDetails = (props) => {
               </Carousel>
             </div>
 
-            <div>
+
+            <div className="detailsBox">
               <div className="detailsBlock-1">
                 <h2>{product.productName}</h2>
                 <p>Product # {product._id}</p>
@@ -127,7 +128,7 @@ const ProductDetails = (props) => {
                 <div className="detailsBlock-3-1">
                   <div className="detailsBlock-3-1-1">
                     <button onClick={decreaseQuantity}>-</button>
-                    <input readOnly type="number"value={quantity} />
+                    <input readOnly type="text" color={"black"} value={quantity} />
                     <button onClick={increaseQuantity}>+</button>
                   </div>
                   <button
@@ -195,11 +196,11 @@ const ProductDetails = (props) => {
               {product.reviews &&
                 product.reviews.map((review) => (
                   <ReviewCard key={review._id} review={review} />
-                  
+
                 ))}
             </div>
           ) : (
-            <p className="noReviews"  m="5rem">No Reviews Yet</p>
+            <p className="noReviews" m="5rem">No Reviews Yet</p>
           )}
         </Fragment>
       )}

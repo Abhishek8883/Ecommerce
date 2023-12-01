@@ -45,7 +45,7 @@ const Products = () => {
       }
     })()
 
-  }, [dispatch, currentPage, keyword, productCount, price,category,ratings])
+  }, [dispatch, currentPage, keyword, productCount, price,category,ratings,getProducts])
 
 
 

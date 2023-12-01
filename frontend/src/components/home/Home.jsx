@@ -39,7 +39,7 @@ const Home = () => {
       }
     })()
 
-  }, [dispatch, products])
+  }, [dispatch, products,getProducts,keyword])
 
 
   return (

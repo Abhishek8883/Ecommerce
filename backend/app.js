@@ -38,12 +38,13 @@ app.use(i18n)
 const productRouter = require("./routes/productRoute");
 const userRouter = require("./routes/userRoute");
 const orderRouter = require("./routes/orderRoute");
+const cartRouter = require("./routes/cartRoute")
 
 
 app.use("/api/v1", productRouter);
 app.use("/api/v1", userRouter);
 app.use("/api/v1", orderRouter);
-
+app.use("/api/v1", cartRouter);
 
 
 

@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import "./UpdateProfile.css";
-import Loader from "../layout/loader/Loader";
+// import Loader from "../layout/loader/Loader";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 // import MenuIcon from '@mui/icons-material/Menu';
 import FaceIcon from "@mui/icons-material/Face";
@@ -11,7 +11,7 @@ import { useUpdateProfileMutation } from "../../features/user/userApiSlice";
 import {useNavigate} from "react-router-dom"
 import { useAlert } from "react-alert";
 
-const UpdateProfile = ({ history }) => {
+const UpdateProfile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const alert = useAlert();
@@ -38,7 +38,7 @@ const UpdateProfile = ({ history }) => {
       alert.success(data.message)
       navigate("/profile")
     }
-    if(error){
+    if(error && error.data){
       alert.error(error.data.messege)
     }
   };
@@ -78,7 +78,7 @@ const UpdateProfile = ({ history }) => {
     //     type: UPDATE_PROFILE_RESET,
     //   });
     // }
-  }, [dispatch]);
+  }, [dispatch,user]);
   return (
     <Fragment>
       {/* {loading ? (

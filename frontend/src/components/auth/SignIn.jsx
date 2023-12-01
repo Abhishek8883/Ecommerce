@@ -11,12 +11,12 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { Alert, AlertTitle } from '@mui/material';
+// import { Alert, AlertTitle } from '@mui/material';
 
 
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCredentials, setError } from '../../features/user/userSlice';
+import { setCredentials} from '../../features/user/userSlice';
 import { useLoginMutation } from '../../features/user/userApiSlice';
 import {setCookie} from "../../utils/Cookie";
 import { AUTH_COOKIE } from '../../constants/Constants';
@@ -44,13 +44,13 @@ export default function SignIn() {
   const [login,{isLoading}] = useLoginMutation();
   const alert  = useAlert();
 
-  const {error,isAuthenticated } = useSelector(state => state.user)
+  const {isAuthenticated } = useSelector(state => state.user)
 
   React.useEffect(() => {
     if (isAuthenticated) {
       navigate("/")
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated,navigate])
 
 
   const handleSubmit = async (event) => {

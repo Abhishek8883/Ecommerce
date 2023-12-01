@@ -48,7 +48,7 @@ module.exports = {
             let product = await Product.findById(req.params.id);
 
             if (!product) {
-                return next(new ErrorHandler("Product not found."), 404);
+                return next(new ErrorHandler("Product not found.", 404));
             }
 
             product = await Product.findByIdAndUpdate(req.params.id, req.body, {

@@ -21,7 +21,7 @@ import ListItemText from '@mui/material/ListItemText';
 import List from '@mui/material/List';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import { CssBaseline } from '@mui/material';
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import HomeIcon from '@mui/icons-material/Home';
 import CategoryIcon from '@mui/icons-material/Category';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -339,7 +339,7 @@ export default function Header(props) {
 
           <form onSubmit={searchSubmitHandler}>
             <Search >
-              <SearchIconWrapper>
+              <SearchIconWrapper >
                 <SearchIcon />
               </SearchIconWrapper>
 
