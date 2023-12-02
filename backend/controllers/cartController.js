@@ -11,9 +11,9 @@ module.exports = {
 
             const userId = req.user._id
 
-            const cartItems = await Cart.find({ userId }).populate("items.product");
+            const cartItems = await Cart.findOne({ userId }).populate("items.product");
 
-            return successResponseData(res, cartItems)
+            return successResponseData(res,cartItems)
         }
     ),
 
@@ -67,6 +67,7 @@ module.exports = {
             const productId = req.params.id;
             const { quantity } = req.body;
 
+
             if (quantity < 1) {
                 return next(new ErrorHandler("Quantity Should be atleast 1."))
             }
@@ -81,7 +82,7 @@ module.exports = {
                 })
                 await foundUser.save()
 
-                return successResponse(res, `Quantity updated successfully to - ${quantity} .`, 202)
+                return successResponse(res, `Quantity updated successfully to - ${quantity}.`, 202)
             }
             else {
                 return next(new ErrorHandler("Item does not exist.", 404))

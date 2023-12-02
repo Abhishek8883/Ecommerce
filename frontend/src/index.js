@@ -18,6 +18,7 @@ import Products from "./components/product/Products";
 import Profile from "./components/user/Profile";
 import UpdateProfile from "./components/user/UpdateProfile";
 import ResetPassword from "./components/user/ResetPassword";
+import Cart from './components/cart/Cart'
 
 
 const options = {
@@ -38,6 +39,10 @@ const router = createBrowserRouter(
       <Route path='/products' element={<Products />} />
       <Route path='/products/:keyword' element={<Products />} />
       <Route path="/product/:productId" element={<ProductDetails />} />
+
+
+      {/* Protected routes */}
+
       <Route path='/profile'
         element={<ProtectedRoute>  <Profile /> </ProtectedRoute>} />
 
@@ -45,6 +50,8 @@ const router = createBrowserRouter(
         element={<ProtectedRoute> <UpdateProfile /> </ProtectedRoute>} />
 
       <Route path='/password/update' element={<ProtectedRoute> <ResetPassword />  </ProtectedRoute>} />
+
+      <Route path='/cart' element={<ProtectedRoute> <Cart />  </ProtectedRoute>} />
 
     </Route>
   )

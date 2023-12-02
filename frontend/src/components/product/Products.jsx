@@ -10,6 +10,7 @@ import { setProducts, fetchProducts } from "../../features/product/productSlice"
 import { useLazyGetProductsQuery } from "../../features/product/productApiSlice";
 import { useParams } from "react-router-dom";
 import Pagination from "react-js-pagination";
+import {useAlert} from "react-alert"
 
 
 const Products = () => {
@@ -17,6 +18,7 @@ const Products = () => {
   const dispatch = useDispatch();
   const minDistance = 1000;
   const { keyword } = useParams();
+  const alert = useAlert();
 
 
   const [getProducts] = useLazyGetProductsQuery();
@@ -38,14 +40,19 @@ const Products = () => {
 
   React.useEffect(() => {
     (async () => {
+     try{
       dispatch(fetchProducts())
       const newData = await getProducts([keyword, currentPage, price,category,ratings], false)
       if (newData && newData.data) {
         dispatch(setProducts(newData.data.data))
       }
+     }catch(error){
+      alert(error.data)
+     }
+     
     })()
 
-  }, [dispatch, currentPage, keyword, productCount, price,category,ratings,getProducts])
+  }, [dispatch, currentPage, keyword, productCount, price,category,ratings,getProducts,alert])
 
 
 
@@ -120,6 +127,7 @@ const Products = () => {
                 valueLabelDisplay="auto"
                 min={0}
                 max={5}
+                marks
               />
             </fieldset>
           </div>

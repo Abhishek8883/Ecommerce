@@ -31,7 +31,7 @@ import LoginIcon from '@mui/icons-material/Login';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { removeCredentials } from '../../../features/user/userSlice';
-import {useLazyLogoutQuery} from "../../../features/user/userApiSlice"
+import { useLazyLogoutQuery } from "../../../features/user/userApiSlice"
 import { removeCookie } from '../../../utils/Cookie';
 import { AUTH_COOKIE } from '../../../constants/Constants';
 
@@ -82,12 +82,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function Header(props) {
 
-  //  const searchRef = useRef('search')
-  const dispatch  = useDispatch()
+  const dispatch = useDispatch()
   const history = useNavigate();
   const [logOut] = useLazyLogoutQuery();
 
-  const { isAuthenticated,loading} = useSelector(state => state.user)
+  const { isAuthenticated, loading } = useSelector(state => state.user);
+  const totalCartItems = useSelector(state => state.cart.totalItems)
 
 
   const [keyword, setKeyword] = React.useState("");
@@ -166,10 +166,10 @@ export default function Header(props) {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={profileHandler}>Profile</MenuItem>
-      {!loading && isAuthenticated ? 
-       <MenuItem onClick={logoutHandler}>Logout</MenuItem>
-       :
-       <MenuItem onClick={loginHandler}>Login</MenuItem>
+      {!loading && isAuthenticated ?
+        <MenuItem onClick={logoutHandler}>Logout</MenuItem>
+        :
+        <MenuItem onClick={loginHandler}>Login</MenuItem>
       }
     </Menu>
   );
@@ -208,7 +208,7 @@ export default function Header(props) {
       </MenuItem>
 
       <MenuItem >
-        <IconButton 
+        <IconButton
           size="large"
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
@@ -359,9 +359,16 @@ export default function Header(props) {
               aria-label="show Cart items"
               color="inherit"
             >
-              <Badge badgeContent={1} color="error">
-                <ShoppingCartIcon />
-              </Badge>
+
+              {(totalCartItems > 0) ?
+                <Badge  onClick={() => history("/cart")} badgeContent={totalCartItems} color="error">
+                  <ShoppingCartIcon />
+                </Badge>
+                :
+                <ShoppingCartIcon  onClick={() => history("/cart")}/>
+              }
+
+
             </IconButton>
             <IconButton
               size="large"

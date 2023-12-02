@@ -44,13 +44,13 @@ export default function SignIn() {
   const [login,{isLoading}] = useLoginMutation();
   const alert  = useAlert();
 
-  const {isAuthenticated } = useSelector(state => state.user)
+  const {isAuthenticated} = useSelector(state => state.user)
 
   React.useEffect(() => {
     if (isAuthenticated) {
-      navigate("/")
+      navigate(-2)
     }
-  }, [isAuthenticated,navigate])
+  }, [navigate,isAuthenticated])
 
 
   const handleSubmit = async (event) => {

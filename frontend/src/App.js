@@ -8,11 +8,14 @@ import { useDispatch } from "react-redux"
 import { getCookie, removeCookie } from './utils/Cookie';
 import { AUTH_COOKIE } from './constants/Constants';
 import { useLazyGetUserDetailsQuery } from './features/user/userApiSlice';
+import {useLazyGetTotalCartItemsNoQuery} from "./features/cart/cartApiSlice";
+import {setTotalItems} from "./features/cart/cartSlice"
 
 
 function App() {
   const dispatch = useDispatch();
   const [getUserDetails] = useLazyGetUserDetailsQuery();
+  const [getTotalCartItems] = useLazyGetTotalCartItemsNoQuery();
 
   React.useEffect(() => {
     (async () => {
@@ -41,6 +44,11 @@ function App() {
               user: userData.data, accessToken: token, isAuthenticated: true
             }))
           }
+
+          const totalItems = await getTotalCartItems().unwrap();
+          if(totalItems.success){
+            dispatch(setTotalItems(totalItems.data.totalItems))
+          }
         }
 
       } catch (error) {
@@ -51,7 +59,7 @@ function App() {
       }
     })()
 
-  }, [dispatch,getUserDetails])
+  }, [dispatch,getUserDetails,getTotalCartItems])
 
 
   return (
