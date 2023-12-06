@@ -27,6 +27,7 @@ import CategoryIcon from '@mui/icons-material/Category';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
+import Avatar from '@mui/material/Avatar';
 
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -86,7 +87,7 @@ export default function Header(props) {
   const history = useNavigate();
   const [logOut] = useLazyLogoutQuery();
 
-  const { isAuthenticated, loading } = useSelector(state => state.user);
+  const { isAuthenticated, loading ,user} = useSelector(state => state.user);
   const totalCartItems = useSelector(state => state.cart.totalItems)
 
 
@@ -378,8 +379,8 @@ export default function Header(props) {
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
               color="inherit"
-            >
-              <AccountCircle />
+            > 
+              {(user && user.avatar) ?  <Avatar alt="profile" src={user.avatar.url} /> :<AccountCircle /> }
             </IconButton>
           </Box>
 

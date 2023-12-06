@@ -52,5 +52,10 @@
 	"Cart validation failed: items.0.quantity: Cast to Number failed for value \"{ id: '6561fad9980c9d5966c00f2e', quantity: 10 }\" (type Object) at path \"quantity\"": "Cart validation failed: items.0.quantity: Cast to Number failed for value \"{ id: '6561fad9980c9d5966c00f2e', quantity: 10 }\" (type Object) at path \"quantity\"",
 	"Quantity updated successfully to - 10.": "Quantity updated successfully to - 10.",
 	"Quantity updated successfully to - 7.": "Quantity updated successfully to - 7.",
-	"Quantity updated successfully to - 2.": "Quantity updated successfully to - 2."
+	"Quantity updated successfully to - 2.": "Quantity updated successfully to - 2.",
+	"Quantity updated successfully to - 3.": "Quantity updated successfully to - 3.",
+	"Quantity updated successfully to - 1.": "Quantity updated successfully to - 1.",
+	"productId is not defined": "productId is not defined",
+	"Quantity updated successfully to - 5.": "Quantity updated successfully to - 5.",
+	"Quantity updated successfully to - 4.": "Quantity updated successfully to - 4."
 }

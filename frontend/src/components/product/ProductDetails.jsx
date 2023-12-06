@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import ReviewCard from "./ReviewCard";
 import Loader from "../layout/loader/Loader";
 import MetaData from "../layout/MetaData";
+import { useAlert } from "react-alert";
 import {
   Dialog,
   DialogActions,
@@ -15,7 +16,9 @@ import {
 } from "@mui/material";
 import { useGetProductDetailsQuery } from "../../features/product/productApiSlice";
 import { useParams } from "react-router-dom";
-import { setProductDetails, getProductDetails } from "../../features/product/productDetailsSlice"
+import { setProductDetails, getProductDetails } from "../../features/product/productDetailsSlice";
+import { useAddItemCartMutation } from "../../features/cart/cartApiSlice";
+import { setTotalItems } from "../../features/cart/cartSlice";
 
 
 const ProductDetails = (props) => {
@@ -25,11 +28,14 @@ const ProductDetails = (props) => {
   const [open, setOpen] = useState(false);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
+  const alert = useAlert();
 
 
   const dispatch = useDispatch();
   const { productId } = useParams();
   const { data, error } = useGetProductDetailsQuery(productId);
+  const [addItemCart] = useAddItemCartMutation();
+  const {totalItems} = useSelector(state => state.cart)
 
   useEffect(() => {
     dispatch(getProductDetails())
@@ -41,7 +47,6 @@ const ProductDetails = (props) => {
 
   const { product, loading } = useSelector(state => state.productDetails)
 
-  // const alert = useAlert();
 
   const options = {
     size: "large",
@@ -65,9 +70,18 @@ const ProductDetails = (props) => {
     setQuantity(qty);
   };
 
-  const addToCartHandler = () => {
-    // dispatch(addItemsToCart(match.params.id, quantity));
-    // alert.success("Item Added To Cart");
+  const addToCartHandler = async() => {
+    
+    try{
+      const result = await addItemCart({productId:product._id,quantity}).unwrap();
+      if(result.success){
+        alert.success(result.message);
+        dispatch(setTotalItems(totalItems+1))
+      }
+    }catch(error){
+      let err = JSON.parse(JSON.stringify(error))
+      alert.error(err.data.message);
+    }
   };
 
   const submitReviewToggle = () => {

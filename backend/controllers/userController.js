@@ -163,7 +163,6 @@ module.exports = {
         const { name, email, avatar } = req.body;
 
         let user = await User.findById(req.user.id);
-        console.log(user);
 
         if (user) {
             user.name = name;

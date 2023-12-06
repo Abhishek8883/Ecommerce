@@ -9,6 +9,7 @@ import Loader from "../layout/loader/Loader";
 import { useLazyGetAllCartItemsQuery, useRemoveItemCartMutation, useUpdateItemQuantityMutation } from "../../features/cart/cartApiSlice";
 import { fetchCartItems, addItemsCart, removeItemsCart,updateTotalItems} from "../../features/cart/cartSlice";
 import { useAlert } from 'react-alert';
+import MetaData from "../layout/MetaData";
 
 
 const Cart = () => {
@@ -52,7 +53,6 @@ const Cart = () => {
       let err = JSON.parse(JSON.stringify(error))
       alert.error(err.data.message)
     }
-    dispatch(updateTotalItems(totalItems+1))
     loadProducts()
   };
 
@@ -72,7 +72,6 @@ const Cart = () => {
       let err = JSON.parse(JSON.stringify(error))
       alert.error(err.data.message)
     }
-    dispatch(updateTotalItems(totalItems-1))
     loadProducts()
   };
 
@@ -102,6 +101,7 @@ const Cart = () => {
         <Loader />
         :
         (<>
+          <MetaData title="Cart -- ECOMMERCE"/> 
           {(!cartItems || cartItems.length === 0) ? (
             <div className="emptyCart">
               <RemoveShoppingCartIcon />

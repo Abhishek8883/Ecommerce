@@ -17,7 +17,7 @@ export const cartSlice = createSlice({
 
         addItemsCart:(state,action) => {
             state.loading = false
-            state.cartItems = action.payload
+            state.cartItems = action.payload;
         },
 
         setTotalItems:(state,action) => {
