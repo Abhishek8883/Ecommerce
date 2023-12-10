@@ -8,6 +8,7 @@ const userSlice = createSlice({
         token: null,
         isAuthenticated: false,
         error: null,
+        stripeApiKey:null,
     },
     reducers: {
         setCredentials: (state, action) => {
@@ -32,12 +33,16 @@ const userSlice = createSlice({
             state.isAuthenticated = false;
         },
 
+        setStripeApiKey:(state,action) => {
+            state.stripeApiKey = action.payload;
+        }
+
        
     }
 
 })
 
-export const { setCredentials, removeCredentials, setError} = userSlice.actions;
+export const { setCredentials, removeCredentials, setError,setStripeApiKey} = userSlice.actions;
 
 export default userSlice.reducer;
 

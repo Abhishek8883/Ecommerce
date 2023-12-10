@@ -8,6 +8,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ProtectedRoute from "./utils/ProtectedRoute";
 import { positions, transitions, Provider as AlertProvider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
+import { useSelector } from 'react-redux';
 
 
 import Home from "./components/home/Home";
@@ -18,7 +19,12 @@ import Products from "./components/product/Products";
 import Profile from "./components/user/Profile";
 import UpdateProfile from "./components/user/UpdateProfile";
 import ResetPassword from "./components/user/ResetPassword";
-import Cart from './components/cart/Cart'
+import Cart from './components/cart/Cart';
+import Shipping from './components/order/Shipping';
+import ConfirmOrder from './components/order/ConfirmOrder';
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+
 
 
 const options = {
@@ -53,6 +59,14 @@ const router = createBrowserRouter(
 
       <Route path='/cart' element={<ProtectedRoute> <Cart />  </ProtectedRoute>} />
 
+      <Route path='/shipping' element={<ProtectedRoute> <Shipping />  </ProtectedRoute>} />
+
+      <Route path='/order/confirm' element={<ProtectedRoute> <ConfirmOrder />  </ProtectedRoute>} />
+
+      {/* <Elements stripe={}>
+        <Route path='/order/confirm' element={<ProtectedRoute> <ConfirmOrder />  </ProtectedRoute>} />
+      </Elements> */}
+
     </Route>
   )
 )
@@ -61,9 +75,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
       <ThemeProvider theme={defaultTheme}>
-      <AlertProvider template={AlertTemplate} {...options}>
-        <RouterProvider router={router} />
-      </AlertProvider>
+        <AlertProvider template={AlertTemplate} {...options}>
+          <RouterProvider router={router} />
+        </AlertProvider>
       </ThemeProvider>
     </Provider>
   </React.StrictMode>

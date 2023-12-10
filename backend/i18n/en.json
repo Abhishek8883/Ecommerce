@@ -57,5 +57,6 @@
 	"Quantity updated successfully to - 1.": "Quantity updated successfully to - 1.",
 	"productId is not defined": "productId is not defined",
 	"Quantity updated successfully to - 5.": "Quantity updated successfully to - 5.",
-	"Quantity updated successfully to - 4.": "Quantity updated successfully to - 4."
+	"Quantity updated successfully to - 4.": "Quantity updated successfully to - 4.",
+	"Token expired , Try again": "Token expired , Try again"
 }

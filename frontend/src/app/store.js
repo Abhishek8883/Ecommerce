@@ -5,6 +5,7 @@ import productReducer from "../features/product/productSlice";
 import productDetailsReducer from "../features/product/productDetailsSlice";
 import updatePasswordReducer from "../features/user/updatePasswordSlice";
 import cartReducer from "../features/cart/cartSlice";
+import shippingReducer from "../features/order/shippingSlice"
 
 
 export const store = configureStore({
@@ -14,7 +15,8 @@ export const store = configureStore({
         "products": productReducer,
         "productDetails": productDetailsReducer,
         "updatePassword" : updatePasswordReducer,
-        "cart":cartReducer
+        "cart":cartReducer,
+        "shipping":shippingReducer
     },
     middleware: (defMiddleware) => defMiddleware()
         .concat([

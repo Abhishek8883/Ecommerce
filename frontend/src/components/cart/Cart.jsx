@@ -10,7 +10,7 @@ import { useLazyGetAllCartItemsQuery, useRemoveItemCartMutation, useUpdateItemQu
 import { fetchCartItems, addItemsCart, removeItemsCart,updateTotalItems} from "../../features/cart/cartSlice";
 import { useAlert } from 'react-alert';
 import MetaData from "../layout/MetaData";
-
+import {useNavigate} from "react-router-dom"
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -19,8 +19,9 @@ const Cart = () => {
   const [updateQuantity] = useUpdateItemQuantityMutation();
   const [removeItem] = useRemoveItemCartMutation();
   const alert = useAlert();
-
-  const loadProducts = async () => {
+  const navigate = useNavigate();
+  const loadProductsCart = async () => {
+    
     try {
       dispatch(fetchCartItems());
       const foundItems = await getCartItems().unwrap();
@@ -35,8 +36,9 @@ const Cart = () => {
   }
 
   useEffect(() => {
-    loadProducts()
-  }, [])
+
+    loadProductsCart()
+  },[])
 
   const increaseQuantity = async (id, quantity, stock) => {
     try {
@@ -53,7 +55,7 @@ const Cart = () => {
       let err = JSON.parse(JSON.stringify(error))
       alert.error(err.data.message)
     }
-    loadProducts()
+    loadProductsCart()
   };
 
 
@@ -72,7 +74,7 @@ const Cart = () => {
       let err = JSON.parse(JSON.stringify(error))
       alert.error(err.data.message)
     }
-    loadProducts()
+    loadProductsCart()
   };
 
 
@@ -88,11 +90,11 @@ const Cart = () => {
       alert.error(err.data.message)
     }
     dispatch(updateTotalItems(totalItems-1))
-    loadProducts()
+    loadProductsCart()
   };
 
   const checkoutHandler = () => {
-    // history.push("/login?redirect=shipping");
+    navigate("/shipping")
   };
 
   return (

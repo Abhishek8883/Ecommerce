@@ -27,6 +27,7 @@
     "nodemailer": "^6.9.4",
     "path": "^0.12.7",
     "react-js-pagination": "^3.0.3",
+    "stripe": "^14.8.0",
     "validator": "^13.11.0"
   }
 }

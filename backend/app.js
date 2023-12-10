@@ -21,6 +21,12 @@ app.use(logger('dev'));
 //cookie parser
 app.use(cookieParser());
 
+// Config
+if (process.env.NODE_ENV !== "PRODUCTION") {
+    require("dotenv").config({ path: "backend/config/config.env" });
+}
+
+
 
 const corsOptions = {
     credentials: true, origin: 'http://localhost:3000', 
@@ -39,12 +45,15 @@ const productRouter = require("./routes/productRoute");
 const userRouter = require("./routes/userRoute");
 const orderRouter = require("./routes/orderRoute");
 const cartRouter = require("./routes/cartRoute")
+const paymentRouter = require("./routes/paymentRoute");
+
 
 
 app.use("/api/v1", productRouter);
 app.use("/api/v1", userRouter);
 app.use("/api/v1", orderRouter);
 app.use("/api/v1", cartRouter);
+app.use("/api/v1", paymentRouter);
 
 
 

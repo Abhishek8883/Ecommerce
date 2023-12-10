@@ -39,8 +39,7 @@ module.exports = {
             return next(new ErrorHandler("Invalid email or password.", 401))
         }
 
-        const isPasswordMatched = user.comparePassword(password);
-
+        const isPasswordMatched = await user.comparePassword(password);
         if (!isPasswordMatched) {
             return next(new ErrorHandler("Invalid email or password.", 401))
         }
