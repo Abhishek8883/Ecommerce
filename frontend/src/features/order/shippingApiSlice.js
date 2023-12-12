@@ -5,7 +5,15 @@ export const shippingApiSlice = apiSlice.injectEndpoints({
         getStripeApiKey: builder.query({
             query: () => `stripeapikey`
         }),
+
+        processPayment: builder.mutation({
+            query: (data) => ({
+                url: "payment/process",
+                method: 'POST',
+                body:data,
+            })
+        }),
     })
 })
 
-export const {useLazyGetStripeApiKeyQuery } = shippingApiSlice;
+export const {useGetStripeApiKeyQuery,useProcessPaymentMutation} = shippingApiSlice;

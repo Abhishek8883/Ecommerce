@@ -359,14 +359,15 @@ export default function Header(props) {
               size="large"
               aria-label="show Cart items"
               color="inherit"
+              onClick={() => history("/cart")}
             >
 
               {(totalCartItems > 0) ?
-                <Badge  onClick={() => history("/cart")} badgeContent={totalCartItems} color="error">
+                <Badge   badgeContent={totalCartItems} color="error">
                   <ShoppingCartIcon />
                 </Badge>
                 :
-                <ShoppingCartIcon  onClick={() => history("/cart")}/>
+                <ShoppingCartIcon/>
               }
 
 

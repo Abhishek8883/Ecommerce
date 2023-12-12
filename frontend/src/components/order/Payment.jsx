@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useRef } from "react";
-import CheckoutSteps from "../../components/order/CheckoutSteps";
+import CheckoutSteps from "./CheckoutSteps";
 import { useSelector, useDispatch } from "react-redux";
 import MetaData from "../layout/MetaData";
 import { Typography } from "@mui/material";
@@ -13,11 +13,12 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 
-import axios from "axios";
 import "./payment.css";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import EventIcon from "@mui/icons-material/Event";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
+
+import { useProcessPaymentMutation } from "../../features/order/shippingApiSlice";
 
 const Payment = () => {
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
@@ -28,11 +29,11 @@ const Payment = () => {
   const elements = useElements();
   const payBtn = useRef(null);
   const navigate = useNavigate();
+  const [processPayment] = useProcessPaymentMutation();
 
   const { shippingInfo} = useSelector((state) => state.shipping);
   const {cartItems} = useSelector((state) => state.cart)
   const { user } = useSelector((state) => state.user);
-  // const { error } = useSelector((state) => state.newOrder);
 
   const paymentData = {
     amount: Math.round(orderInfo.totalPrice * 100),
@@ -47,24 +48,19 @@ const Payment = () => {
     totalPrice: orderInfo.totalPrice,
   };
 
+  
   const submitHandler = async (e) => {
     e.preventDefault();
 
     payBtn.current.disabled = true;
 
     try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-      const { data } = await axios.post(
-        "/api/v1/payment/process",
-        paymentData,
-        config
-      );
-
+     
+      const {data} = await processPayment(paymentData).unwrap();
+      
       const client_secret = data.client_secret;
+
+
 
       if (!stripe || !elements) return;
 
@@ -96,25 +92,19 @@ const Payment = () => {
             status: result.paymentIntent.status,
           };
 
-          dispatch(createOrder(order));
-
           navigate("/success");
         } else {
           alert.error("There's some issue while processing payment ");
         }
       }
+
+      
     } catch (error) {
       payBtn.current.disabled = false;
-      alert.error(error.response.data.message);
+      // alert.error(error.response.data.message);
+      console.log(error);
     }
   };
-
-  useEffect(() => {
-    if (error) {
-      alert.error(error);
-      dispatch(clearErrors());
-    }
-  }, [dispatch, error, alert]);
 
   return (
     <Fragment>

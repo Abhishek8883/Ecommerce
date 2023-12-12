@@ -4,13 +4,15 @@ import Footer from './footer/footer';
 
 
 const layout = () => {
-  
-    return (
-        <>
-          <Header />
-          <Outlet />
-          <Footer />
-        </>
-      )
+
+
+
+  return (
+    <>
+      <Header />
+      <Outlet />
+      <Footer />
+    </>
+  )
 }
 export default layout
